@@ -1,3 +1,33 @@
+<script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Portafolio de [Tu Nombre] | Desarrollador Web y Diseñador UX/UI',
+  meta: [
+    {
+      name: 'description',
+      content: 'Descubre mi portafolio donde presento mis proyectos como Desarrollador Web y Diseñador UX/UI.',
+    },
+    {
+      name: 'keywords',
+      content: 'portafolio profesional, desarrollo web, diseño UX/UI, [Tu Nombre]',
+    },
+    {
+      property: 'og:title',
+      content: 'Portafolio de [Tu Nombre] | Desarrollador Web y Diseñador UX/UI',
+    },
+    {
+      property: 'og:description',
+      content: 'Descubre mi portafolio donde presento mis proyectos como Desarrollador Web y Diseñador UX/UI.',
+    },
+    {
+      property: 'og:image',
+      content: '/path/to/your/og-image.jpg',
+    },
+  ]
+})
+</script>
+
 <template>
     <div class="home">
       <!-- Logo -->
@@ -19,10 +49,6 @@
       </div>
     </div>
   </template>
-  
-  <script setup>
-  // No es necesario agregar lógica aquí por ahora.
-  </script>
   
   <style scoped>
   .home {
