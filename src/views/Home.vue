@@ -13,7 +13,7 @@
   
       <!-- Botón para registro -->
       <div class="cta-container">
-        <router-link to="/register">
+        <router-link to="/login">
           <button>Crea tu portafolio</button>
         </router-link>
       </div>

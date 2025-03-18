@@ -1,5 +1,6 @@
 <template>
-    <div class="login-container">
+    <div class="container">
+      <div class="login-container">
       <h1>Iniciar Sesión</h1>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -36,6 +37,7 @@
         </p>
       </form>
     </div>
+    </div>
   </template>
   
   <script setup>
@@ -69,9 +71,17 @@
   </script>
   
   <style scoped>
+
+.container{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
   .login-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--color-bg-offset);
@@ -118,7 +128,9 @@
     position: absolute;
     right: 10px;
     cursor: pointer;
+    font-size: 20px;
     color: var(--color-text);
+    top: 10px;
   }
   
   button {

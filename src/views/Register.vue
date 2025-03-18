@@ -1,5 +1,6 @@
 <template>
-    <div class="register-container">
+    <div class="container">
+      <div class="register-container">
       <h1>Regístrate</h1>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
@@ -61,6 +62,7 @@
         </p>
       </form>
     </div>
+    </div>
   </template>
   
   <script setup>
@@ -111,9 +113,15 @@
   </script>
   
   <style scoped>
+  .container{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
   .register-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--color-bg-offset);
@@ -167,6 +175,7 @@
     cursor: pointer;
     font-size: 20px;
     color: var(--color-text);
+    top: 10px;
   }
   
   button {
