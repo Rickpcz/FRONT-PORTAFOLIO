@@ -1,5 +1,11 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import './assets/styles.css'
+import 'boxicons/css/boxicons.min.css';
+ // Asegúrate de importar el router
 
-createApp(App).mount('#app')
+const app = createApp(App);
+
+app.use(router); // Usa el router en la aplicación
+app.mount('#app');

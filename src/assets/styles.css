@@ -1,0 +1,161 @@
+
+:root {
+    --color-bg: #0e141b;
+    --color-bg-offset: #252526;
+    --color-text: #ffffff;
+    --color-text-offset: #818a91;
+    --color-border: #2d2d2d;
+
+    --color-primary: #ff5277;
+    --color-primary-offset: #ff2957;
+    --color-secondary: #43a9a3;
+
+    --font-title: 'Poppins', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+    --font-details: 'Nunito Sans', sans-serif;
+}
+
+/* Global Styles */
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
+    margin: 20px 0;
+}
+
+p {
+    font-family: var(--font-body);
+    color: var(--color-text-offset);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary-offset);
+}
+
+/* Header (Navbar) */
+header {
+    background-color: var(--color-bg-offset);
+    padding: 20px;
+    text-align: center;
+}
+
+header nav a {
+    margin: 0 15px;
+    font-size: 18px;
+    color: var(--color-text);
+}
+
+header nav a:hover {
+    color: var(--color-primary);
+}
+
+/* Footer */
+footer {
+    background-color: var(--color-bg-offset);
+    color: var(--color-text-offset);
+    padding: 10px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+footer a {
+    color: var(--color-text-offset);
+}
+
+footer a:hover {
+    color: var(--color-primary);
+}
+
+/* Main Content */
+main {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Portfolio Sections */
+.portfolio-header, .portfolio-projects, .portfolio-skills, .portfolio-contact {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-offset);
+    border-radius: 10px;
+}
+
+/* Heading styles */
+h1 {
+    font-size: 60px;
+    color: var(--color-primary);
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 40px;
+}
+
+h4 {
+    font-size: 30px;
+}
+
+h5 {
+    font-size: 24px;
+}
+
+h6 {
+    font-size: 18px;
+}
+
+/* Buttons */
+button {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--color-primary-offset);
+}
+
+/* Input and Textarea */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-offset);
+    color: var(--color-text);
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

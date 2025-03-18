@@ -1,0 +1,158 @@
+<template>
+    <div class="login-container">
+      <h1>Iniciar Sesión</h1>
+      <form @submit.prevent="handleLogin">
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input 
+            type="email" 
+            id="email" 
+            v-model="form.email" 
+            placeholder="Ingresa tu correo electrónico" 
+            required
+          />
+        </div>
+  
+        <div class="form-group password-field">
+          <label for="password">Contraseña</label>
+          <div class="input-container">
+            <input 
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              v-model="form.password"
+              placeholder="Ingresa tu contraseña"
+              required
+            />
+            <i :class="showPassword ? 'bx bx-show' : 'bx bx-hide'" @click="togglePassword"></i>
+          </div>
+        </div>
+  
+        <button type="submit" :disabled="isSubmitting">
+          {{ isSubmitting ? 'Iniciando...' : 'Iniciar Sesión' }}
+        </button>
+  
+        <p class="register-link">
+          ¿No tienes cuenta? <router-link to="/register">Regístrate</router-link>
+        </p>
+      </form>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  
+  const router = useRouter();
+  
+  const form = ref({
+    email: '',
+    password: ''
+  });
+  
+  const showPassword = ref(false);
+  const isSubmitting = ref(false);
+  
+  const togglePassword = () => {
+    showPassword.value = !showPassword.value;
+  };
+  
+  const handleLogin = () => {
+    isSubmitting.value = true;
+  
+    // Simulación de autenticación
+    setTimeout(() => {
+      alert('Inicio de sesión exitoso!');
+      router.push('/dashboard'); // Ajusta esto según tu ruta principal
+      isSubmitting.value = false;
+    }, 2000);
+  };
+  </script>
+  
+  <style scoped>
+  .login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--color-bg-offset);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: var(--color-text);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+    color: var(--color-primary);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: var(--font-body);
+    color: var(--color-text);
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-offset);
+    color: var(--color-text);
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .password-field .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-field i {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: var(--color-text);
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:disabled {
+    background-color: var(--color-primary-offset);
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: var(--color-primary-offset);
+  }
+  
+  .register-link {
+    text-align: center;
+    margin-top: 20px;
+    font-family: var(--font-body);
+  }
+  
+  .register-link a {
+    color: var(--color-primary);
+  }
+  
+  .register-link a:hover {
+    color: var(--color-primary-offset);
+  }
+  </style>
+  
