@@ -29,7 +29,7 @@
         </div>
   
         <button type="submit" :disabled="isSubmitting">
-          {{ isSubmitting ? 'Iniciando...' : 'Iniciar Sesión' }}
+          <router-link to="/dashboard" class="text-white">{{ isSubmitting ? 'Iniciando...' : 'Iniciar Sesión' }}</router-link>
         </button>
   
         <p class="register-link">
