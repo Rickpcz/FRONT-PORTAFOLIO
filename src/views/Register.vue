@@ -8,21 +8,32 @@
           <input 
             type="text" 
             id="name" 
-            v-model="form.name" 
+            v-model="form.nombre" 
             placeholder="Ingresa tu nombre" 
             required
           />
         </div>
         
         <div class="form-group">
-          <label for="email">Correo Electrónico</label>
+          <label for="username">Username (nombre para mostrar tu portafolio)</label>
           <input 
-            type="email" 
-            id="email" 
-            v-model="form.email" 
-            placeholder="Ingresa tu correo electrónico" 
+            type="text" 
+            id="username" 
+            v-model="form.username" 
+            placeholder="Ingresa tu username" 
             required
           />
+        </div>
+
+        <div class="form-group">
+          <label for="area">Área/Especialización </label>
+          <select name="area" id="area" v-model="form.area" class="styled-select">
+  <option value="1" >Tecnología</option>
+  <option value="2">Ingeniería</option>
+  <option value="3">Ciencias Sociales</option>
+  <option value="4">Artes</option>
+  <option value="5">Humanidades</option>
+</select>
         </div>
         
         <div class="form-group password-group">
@@ -73,8 +84,9 @@
   
   // Form data
   const form = ref({
-    name: '',
-    email: '',
+    nombre: '',
+    username: '',
+    area: 1,
     password: '',
     confirmPassword: ''
   });
@@ -211,5 +223,21 @@
   .login-link a:hover {
     color: var(--color-primary-offset);
   }
+  .styled-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-offset);
+  color: var(--color-text);
+  font-size: 16px;
+  border-radius: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}
   </style>
   

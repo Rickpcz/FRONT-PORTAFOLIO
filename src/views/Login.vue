@@ -4,12 +4,12 @@
       <h1>Iniciar Sesión</h1>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">Correo Electrónico</label>
+          <label for="email">Username</label>
           <input 
-            type="email" 
-            id="email" 
-            v-model="form.email" 
-            placeholder="Ingresa tu correo electrónico" 
+            type="text" 
+            id="username" 
+            v-model="form.username" 
+            placeholder="Ingresa tu usuario" 
             required
           />
         </div>
@@ -47,7 +47,7 @@
   const router = useRouter();
   
   const form = ref({
-    email: '',
+    username: '',
     password: ''
   });
   
