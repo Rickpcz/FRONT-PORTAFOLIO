@@ -1,14 +1,15 @@
 <template>
-    <div class="login-container">
+    <div class="container">
+      <div class="login-container">
       <h1>Iniciar Sesión</h1>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="email">Correo Electrónico</label>
+          <label for="email">Username</label>
           <input 
-            type="email" 
-            id="email" 
-            v-model="form.email" 
-            placeholder="Ingresa tu correo electrónico" 
+            type="text" 
+            id="username" 
+            v-model="form.username" 
+            placeholder="Ingresa tu usuario" 
             required
           />
         </div>
@@ -28,13 +29,14 @@
         </div>
   
         <button type="submit" :disabled="isSubmitting">
-          {{ isSubmitting ? 'Iniciando...' : 'Iniciar Sesión' }}
+          <router-link to="/dashboard" class="text-white">{{ isSubmitting ? 'Iniciando...' : 'Iniciar Sesión' }}</router-link>
         </button>
   
         <p class="register-link">
           ¿No tienes cuenta? <router-link to="/register">Regístrate</router-link>
         </p>
       </form>
+    </div>
     </div>
   </template>
   
@@ -45,7 +47,7 @@
   const router = useRouter();
   
   const form = ref({
-    email: '',
+    username: '',
     password: ''
   });
   
@@ -69,9 +71,17 @@
   </script>
   
   <style scoped>
+
+.container{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
   .login-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--color-bg-offset);
@@ -118,7 +128,9 @@
     position: absolute;
     right: 10px;
     cursor: pointer;
+    font-size: 20px;
     color: var(--color-text);
+    top: 10px;
   }
   
   button {
