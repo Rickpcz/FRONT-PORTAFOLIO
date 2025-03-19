@@ -70,11 +70,11 @@ export default {
 .page-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Asegura que ocupe toda la altura del viewport */
+    min-height: 100vh;
 }
 
 .content {
-    flex: 1; /* Hace que este contenedor ocupe el espacio restante */
+    flex: 1;
 }
 
 .filter-container {

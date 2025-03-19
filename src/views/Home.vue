@@ -30,18 +30,15 @@ useHead({
 
 <template>
     <div class="home">
-      <!-- Logo -->
       <div class="logo-container">
         <img src="../assets/mygradfolio.png" alt="MyGradfolio Logo" class="logo" />
       </div>
   
-      <!-- Introducción -->
       <div class="intro-container">
         <h1>Bienvenido a MyGradfolio</h1>
         <p>Crea tu portafolio personalizado y muestra tus proyectos, habilidades y experiencia</p>
       </div>
   
-      <!-- Botón para registro -->
       <div class="cta-container">
         <router-link to="/login">
           <button>Crea tu portafolio</button>
@@ -66,7 +63,7 @@ useHead({
   }
   
   .logo {
-    max-width: 200px; /* Ajusta según el tamaño de tu logo */
+    max-width: 200px;
   }
   
   .intro-container {
