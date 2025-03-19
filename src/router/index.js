@@ -8,6 +8,8 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/login', component: Login },
   { path: '/dashboard', component: () => import('../views/Dashboard.vue') },
+  { path: '/profile', component: () => import('../views/profile.vue') },
+  { path: '/profile/create', component: () => import('../views/createPortafolio.vue') },
 ];
 
 const router = createRouter({

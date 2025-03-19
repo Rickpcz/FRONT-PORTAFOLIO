@@ -8,9 +8,8 @@
   // Lógica para Footer si es necesario.
   </script>
   
-  <style scoped>
+  <style>
   footer {
-    background-color: var(--color-bg-offset);
     color: var(--color-text-offset);
     padding: 10px;
     text-align: center;

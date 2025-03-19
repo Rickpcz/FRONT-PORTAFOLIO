@@ -4,12 +4,12 @@
         <img src="../../assets/mygradfolio.png" alt="MyGradfolio Logo" class="logo" />
       </router-link>
       <div class="nav-links d-flex align-items-center gap-3">
-        <router-link to="/register">Portafolio</router-link>
+        <router-link to="/profile/create">Portafolio</router-link>
         <div class="dropdown">
             <i class="fs-logo dropdown-toggle bx bx-user" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></i>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Ver perfil</a></li>
+            <li><a class="dropdown-item" href=""><router-link to="/profile">Mi perfil</router-link></a></li>
             <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
           </ul>
         </div>
