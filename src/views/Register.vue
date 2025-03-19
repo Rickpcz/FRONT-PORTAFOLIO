@@ -15,7 +15,7 @@
 
         <div class="form-group">
           <label for="area">Área/Especialización </label>
-          <select name="area" id="area" v-model="form.area" class="styled-select">
+          <select name="area" id="area" v-model="form.area_id" class="styled-select">
             <option value="1">Tecnología</option>
             <option value="2">Ingeniería</option>
             <option value="3">Ciencias Sociales</option>
@@ -46,6 +46,9 @@
           {{ isSubmitting ? 'Registrando...' : 'Registrarse' }}
         </button>
 
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+
         <p class="login-link">
           ¿Ya tienes una cuenta? <router-link to="/login">Inicia sesión</router-link>
         </p>
@@ -57,6 +60,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter();
 
@@ -64,7 +68,7 @@ const router = useRouter();
 const form = ref({
   nombre: '',
   username: '',
-  area: 1,
+  area_id: 1,
   password: '',
   confirmPassword: ''
 });
@@ -72,6 +76,11 @@ const form = ref({
 // Estado de los iconos de visibilidad de contraseña
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
+
+// Estado de envío y mensajes
+const isSubmitting = ref(false);
+const errorMessage = ref('');
+const successMessage = ref('');
 
 // Funciones para alternar la visibilidad de las contraseñas
 const togglePassword = () => {
@@ -83,22 +92,37 @@ const toggleConfirmPassword = () => {
 };
 
 // Submit handler
-const isSubmitting = ref(false);
-
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (form.value.password !== form.value.confirmPassword) {
-    alert("Las contraseñas no coinciden");
+    errorMessage.value = "Las contraseñas no coinciden";
     return;
   }
 
   isSubmitting.value = true;
+  errorMessage.value = '';
+  successMessage.value = '';
 
-  // Simulación de la solicitud de registro
-  setTimeout(() => {
-    alert('Usuario registrado exitosamente!');
-    router.push('/login'); // Redirige a la página de login después de registrarse
+  try {
+    const response = await axios.post('http://localhost:3030/api/users/', {
+      nombre: form.value.nombre,
+      username: form.value.username,
+      password: form.value.password,
+      area_id: form.value.area_id
+    });
+
+    successMessage.value = "Registro exitoso, redirigiendo...";
+    
+    // Redirigir al login después de 2 segundos
+    setTimeout(() => {
+      router.push('/login');
+    }, 2000);
+
+  } catch (error) {
+    console.log(error);
+    errorMessage.value = error.response?.data?.mensaje || "Error al registrar usuario";
+  } finally {
     isSubmitting.value = false;
-  }, 2000);
+  }
 };
 </script>
 
@@ -158,7 +182,6 @@ h1 {
 .password-container input {
   width: 100%;
   padding-right: 40px;
-  /* Espacio para el ícono */
 }
 
 .password-container i {
@@ -190,6 +213,18 @@ button:hover:not(:disabled) {
   background-color: var(--color-primary-offset);
 }
 
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+
 .login-link {
   text-align: center;
   margin-top: 20px;
@@ -215,9 +250,5 @@ button:hover:not(:disabled) {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px;
 }
 </style>
