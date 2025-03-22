@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container p-5">
     <div class="register-container">
       <h1>Regístrate</h1>
       <form @submit.prevent="handleSubmit">
@@ -12,6 +12,12 @@
           <label for="username">Username (nombre para mostrar tu portafolio)</label>
           <input type="text" id="username" v-model="form.username" placeholder="Ingresa tu username" required />
         </div>
+
+        <div class="form-group">
+          <label for="username">Puesto</label>
+          <input type="text" id="username" v-model="form.puesto" placeholder="Ingresa tu puesto" required />
+        </div>
+
 
         <div class="form-group">
           <label for="area">Área/Especialización </label>
@@ -70,7 +76,8 @@ const form = ref({
   username: '',
   area_id: 1,
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  puesto:'',
 });
 
 // Estado de los iconos de visibilidad de contraseña
@@ -107,7 +114,8 @@ const handleSubmit = async () => {
       nombre: form.value.nombre,
       username: form.value.username,
       password: form.value.password,
-      area_id: form.value.area_id
+      area_id: form.value.area_id,
+      puesto: form.value.puesto
     });
 
     successMessage.value = "Registro exitoso, redirigiendo...";
@@ -138,12 +146,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+
 
 .register-container {
   width: 100%;

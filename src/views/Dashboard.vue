@@ -16,7 +16,12 @@
                 
                 <!-- Lista de Portafolios -->
                 <div class="grid-container">
-                    <div v-for="portafolio in filteredPortfolios" :key="portafolio.id" class="card">
+                    <div 
+                        v-for="portafolio in filteredPortfolios" 
+                        :key="portafolio.id" 
+                        class="card"
+                        @click="redirectToUser(portafolio.username)"
+                    >
                         <img :src="portafolio.imgUser" alt="Imagen de usuario" class="card-img" />
                         <h3>{{ portafolio.nombre }}</h3>
                         <p>{{ portafolio.skills }}</p>
@@ -29,8 +34,10 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navbar from '../components/layout/Navbar.vue';
 import Footer from '../components/layout/Footer.vue';
+
 export default {
     components: {
         Footer, Navbar
@@ -38,30 +45,73 @@ export default {
     data() {
         return {
             selectedArea: '',
-            areas: [
-                { id: 1, nombre: 'Desarrollo Web' },
-                { id: 2, nombre: 'Diseño Gráfico' },
-                { id: 3, nombre: 'Marketing Digital' }
-            ],
-            portafolios: [
-                { id: 1, nombre: 'Juan Pérez', imgUser: 'https://via.placeholder.com/150', skills: 'Frontend Developer', area_id: 1 },
-                { id: 2, nombre: 'María Gómez', imgUser: 'https://via.placeholder.com/150', skills: 'UI/UX Designer', area_id: 2 },
-                { id: 3, nombre: 'Carlos Díaz', imgUser: 'https://via.placeholder.com/150', skills: 'SEO Specialist', area_id: 3 }
-            ],
-            filteredPortfolios: []
+            areas: [],
+            user: [],
+            filteredPortfolios: [],
+            portafolios: []
         };
     },
     methods: {
+        async fetchAreas() {
+            try {
+                const response = await axios.get(`${API_URL}/areas`);
+                this.areas = response.data.map(area => ({
+                    id: area.id,
+                    nombre: area.nombre
+                }));
+            } catch (error) {
+                console.error('Error fetching areas:', error);
+            }
+        },
+        async fetchPortfolios() {
+            try {
+                const response = await axios.get(`${API_URL}/portafolios`);
+                this.portafolios = response.data.map(portafolio => ({
+                    id: portafolio.id,
+                    imgUser: portafolio.imgUser || 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png',
+                    userId: portafolio.userId
+                }));
+            } catch (error) {
+                console.error('Error fetching portfolios:', error);
+            }
+        },
+        async fetchusers() {
+            try {
+                const response = await axios.get(`${API_URL}/users/`);
+                this.user = response.data.map(user => {
+                    // Buscar la imagen del usuario en el array de portafolios
+                    const portfolio = this.portafolios.find(p => p.userId === user.id);
+                    return {
+                        id: user.id,
+                        nombre: user.nombre,
+                        username: user.username, // Agregamos el username
+                        imgUser: portfolio ? portfolio.imgUser : 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png',
+                        skills: user.puesto,
+                        area_id: user.area_id
+                    };
+                });
+                this.filterPortfolios();
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        },
         filterPortfolios() {
             if (this.selectedArea) {
-                this.filteredPortfolios = this.portafolios.filter(p => p.area_id == this.selectedArea);
+                this.filteredPortfolios = this.user.filter(p => p.area_id == this.selectedArea);
             } else {
-                this.filteredPortfolios = this.portafolios;
+                this.filteredPortfolios = this.user;
             }
+        },
+        redirectToUser(username) {
+            const url = `${API_URL}/users/${username}`;
+            console.log(url);
+            window.location.href = url;
         }
     },
-    mounted() {
-        this.filterPortfolios();
+    async mounted() {
+        await this.fetchAreas();
+        await this.fetchPortfolios(); // Primero se obtienen los portafolios
+        await this.fetchusers(); // Luego se obtienen los usuarios y se asignan las imágenes
     }
 };
 </script>
