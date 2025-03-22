@@ -67,7 +67,7 @@ const handleLogin = async () => {
   errorMessage.value = ''; // Resetear mensaje de error
 
   try {
-    const response = await axios.post('http://localhost:3030/api/users/login', form.value);
+    const response = await axios.post(`${API_URL}/users/login`, form.value);
     
     // Almacenar el token en localStorage
     localStorage.setItem('token', response.data.token);

@@ -15,12 +15,10 @@
 
         <div class="form-group">
           <label for="area">Área/Especialización </label>
-          <select name="area" id="area" v-model="form.area_id" class="styled-select">
-            <option value="1">Tecnología</option>
-            <option value="2">Ingeniería</option>
-            <option value="3">Ciencias Sociales</option>
-            <option value="4">Artes</option>
-            <option value="5">Humanidades</option>
+          <select name="area" id="area" v-model="form.area_id" class="styled-select" required>
+            <option v-for="area in areas" :key="area.id" :value="area.id">
+              {{ area.nombre }}
+            </option>
           </select>
         </div>
 
@@ -58,11 +56,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const router = useRouter();
+
+const areas = ref([]);
 
 // Form data
 const form = ref({
@@ -103,7 +103,7 @@ const handleSubmit = async () => {
   successMessage.value = '';
 
   try {
-    const response = await axios.post('http://localhost:3030/api/users/', {
+    const response = await axios.post(`${API_URL}/users/`, {
       nombre: form.value.nombre,
       username: form.value.username,
       password: form.value.password,
@@ -124,6 +124,17 @@ const handleSubmit = async () => {
     isSubmitting.value = false;
   }
 };
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(`${API_URL}/areas`);
+    console.log(response.data);
+    areas.value = response.data;
+  } catch (error) {
+    console.error("Error al cargar las áreas:", error);
+    errorMessage.value = "No se pudieron cargar las áreas";
+  }
+});
 </script>
 
 <style scoped>
