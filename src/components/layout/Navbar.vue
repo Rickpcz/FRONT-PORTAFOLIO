@@ -9,8 +9,8 @@
             <i class="fs-logo dropdown-toggle bx bx-user" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></i>
 
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href=""><router-link to="/profile">Mi perfil</router-link></a></li>
-            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+            <li><a class="dropdown-item"><router-link to="/profile">Mi perfil</router-link></a></li>
+            <li><a class="dropdown-item" @click="logout">Cerrar sesión</a></li>
           </ul>
         </div>
        
@@ -20,7 +20,14 @@
   
   <script>
   export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    methods: {
+      logout() {
+        localStorage.removeItem('auth');
+        localStorage.removeItem('data');
+        this.$router.push('/login');
+      }
+    }
   }
 
   </script>

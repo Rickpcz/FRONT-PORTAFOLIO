@@ -17,4 +17,16 @@ const router = createRouter({
   routes,
 });
 
+// Guard de navegación global
+router.beforeEach((to, from, next) => {
+  const publicRoutes = ['/', '/register', '/login'];
+  const isAuthenticated = localStorage.getItem('auth');
+
+  if (!publicRoutes.includes(to.path) && !isAuthenticated) {
+    next('/login');
+  } else {
+    next();
+  }
+});
+
 export default router;

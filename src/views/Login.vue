@@ -68,9 +68,9 @@ const handleLogin = async () => {
 
   try {
     const response = await axios.post(`${API_URL}/users/login`, form.value);
-    
-    // Almacenar el token en localStorage
-    localStorage.setItem('token', response.data.token);
+    console.log(response.data);
+    localStorage.setItem('data', response.data.id);
+    localStorage.setItem('auth', 'true'); // Guarda la sesión
     router.push('/dashboard'); // Redirigir al dashboard
   } catch (error) {
     // Manejo de errores de la API

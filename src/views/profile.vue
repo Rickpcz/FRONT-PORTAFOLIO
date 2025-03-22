@@ -6,10 +6,13 @@
                 <h2>Mi Perfil</h2>
                 
                 <div class="profile-card">
-                    <img :src="user.imgUser" alt="Foto de perfil" class="profile-img" />
-                    <h3>{{ user.nombre }}</h3>
+                    <img :src="user.imgUser == null ? user.imgUser :'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png'" alt="Foto de perfil" class="profile-img" />                    <h3>{{ user.nombre }}</h3>
                     <p><strong>Username:</strong> {{ user.username }}</p>
-                    <p><strong>Área:</strong> {{ user.area }}</p>
+                    <p><strong>Área:</strong> {{ user.area || 'NO ESPECIFICADA' }}</p>
+                </div>
+
+                <div class="m-10">
+                    <button @click="logout" class="top-custom">Cerrar sesión</button>
                 </div>
             </div>
         </div>
@@ -20,6 +23,7 @@
 <script>
 import Navbar from '../components/layout/Navbar.vue';
 import Footer from '../components/layout/Footer.vue';
+import axios from 'axios';
 export default {
     components: {
         Footer, Navbar
@@ -33,6 +37,25 @@ export default {
                 area: 'Desarrollo Web'
             }
         };
+    },
+    methods: {
+        async fetchUser() {
+            try {
+                const response = await axios.get(`${API_URL}/users/with-image/${localStorage.getItem('data')}`);
+                this.user = response.data;
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        },
+        logout() {
+        localStorage.removeItem('auth');
+        localStorage.removeItem('data');
+        this.$router.push('/login');
+      }
+    },
+    async mounted() {
+        await this.fetchUser();
+        
     }
 };
 </script>
@@ -72,5 +95,9 @@ export default {
     border-radius: 50%;
     margin-bottom: 15px;
     border: 3px solid white;
+}
+
+.top-custom {
+    margin-top: 20px;
 }
 </style>
