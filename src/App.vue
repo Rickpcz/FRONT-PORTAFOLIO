@@ -6,5 +6,6 @@
 </template>
 
 <style scoped>
-/* Agrega estilos globales si es necesario */
+/* Agrega estilos globales si es necesario
+ */
 </style>
