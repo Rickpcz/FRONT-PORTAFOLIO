@@ -4,25 +4,17 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-<<<<<<< Updated upstream
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    tailwindcss(), // Incluyendo ambos plugins
+  ],
   base: '/',
   define: {
-    
-    
     API_URL: JSON.stringify('http://localhost:3030/api'),
-    
-  }
-})
-=======
-  plugins: [
-    vue(), 
-    tailwindcss()
-  ],
+  },
   resolve: {
     alias: {
-      '@': '/src',
+      '@': '/src', // Alias para el directorio src
     },
   },
 })
->>>>>>> Stashed changes
