@@ -1,16 +1,16 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
-import Register from '../views/Register.vue';
-import Login from '../views/Login.vue';
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/register', component: Register },
-  { path: '/login', component: Login },
-  { path: '/dashboard', component: () => import('../views/Dashboard.vue') },
-  { path: '/profile', component: () => import('../views/profile.vue') },
-  { path: '/create', component: () => import('../views/createPortafolio.vue') },
-  { path: '/portafolio', component: () => import('../views/PortfolioPublic.vue') },
+  { path: "/", component: () => import("../views/Home.vue") },
+  { path: "/register", component: () => import("../views/Register.vue") },
+  { path: "/login", component: () => import("../views/Login.vue") },
+  { path: "/dashboard", component: () => import("../views/Dashboard.vue") },
+  { path: "/profile", component: () => import("../views/profile.vue") },
+  { path: "/create", component: () => import("../views/createPortafolio.vue") },
+  {
+    path: "/portafolio/:username",
+    component: () => import("../views/PortfolioPublic.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -20,11 +20,13 @@ const router = createRouter({
 
 // Guard de navegación global
 router.beforeEach((to, from, next) => {
-  const publicRoutes = ['/', '/register', '/login'];
-  const isAuthenticated = localStorage.getItem('auth');
+  const publicRoutes = ["/", "/register", "/login"];
+  const isAuthenticated = localStorage.getItem("auth");
 
-  if (!publicRoutes.includes(to.path) && !isAuthenticated) {
-    next('/login');
+  if (publicRoutes.includes(to.path) || to.path.startsWith("/portafolio/")) {
+    next();
+  } else if (!isAuthenticated) {
+    next("/login");
   } else {
     next();
   }

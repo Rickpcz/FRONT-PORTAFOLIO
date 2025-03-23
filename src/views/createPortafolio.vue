@@ -7,8 +7,7 @@
                 <!-- Primera fila: Portafolio -->
                 <div class="grid-item portfolio">
                     <h3 class="fs-form">Portafolio</h3>
-                    <input v-model="portafolio.imgUser" placeholder="Imagen URL" type="text" />
-                    <textarea v-model="portafolio.skills" placeholder="Habilidades"></textarea>
+                    <input @change="handleFileUpload" placeholder="Imagen URL" type="file" />                    <textarea v-model="portafolio.skills" placeholder="Habilidades"></textarea>
                     <textarea v-model="portafolio.achievements" placeholder="Logros"></textarea>
                 </div>
                 
@@ -45,6 +44,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Navbar from '../components/layout/Navbar.vue';
 import Footer from '../components/layout/Footer.vue';
 export default {
@@ -76,14 +76,31 @@ export default {
         };
     },
     methods: {
-        submitForm() {
-            console.log("Formulario enviado", {
-                contacto: this.contacto,
-                portafolio: this.portafolio,
-                xp: this.xp,
-                proyecto: this.proyecto
-            });
-        }
+        async submitForm() {
+    const formData = new FormData();
+    
+    // Asegúrate de que this.portafolio.id tenga el ID correcto
+    formData.append('id', localStorage.getItem('data')); 
+    formData.append('image', this.portafolio.imgUser); // El archivo que seleccionaste
+
+    try {
+        const response = await axios.post(`${API_URL}/portafolios/upload`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log('Imagen subida con éxito:', response.data);
+    } catch (error) {
+        console.error('Error al subir la imagen:', error);
+    }
+},
+handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        this.portafolio.imgUser = file;
+    }
+}
+
     }
 };
 </script>

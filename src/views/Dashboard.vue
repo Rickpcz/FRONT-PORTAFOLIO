@@ -103,10 +103,11 @@ export default {
             }
         },
         redirectToUser(username) {
-            const url = `${API_URL}/users/${username}`;
-            console.log(url);
-            window.location.href = url;
-        }
+    this.$router.push({ 
+        path: `/portafolio/${username}` // Ruta dinámica
+    });
+
+}
     },
     async mounted() {
         await this.fetchAreas();

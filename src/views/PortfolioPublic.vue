@@ -30,6 +30,7 @@ import PortfolioContact from '../components/portafolio/PortfolioContact.vue';
 import PortfolioAbout from '../components/portafolio/PortfolioAbout.vue';
 import PortfolioFooter from '../components/portafolio/PortfolioFooter.vue';
 
+import axios from 'axios';
 export default {
   name: 'PortfolioPublic',
   components: {
@@ -39,6 +40,27 @@ export default {
     PortfolioContact,
     PortfolioAbout,
     PortfolioFooter,
+  }, data() {
+    return {
+      username: null,
+      userData: null
+    };
+  },
+  async mounted() {
+    this.username = this.$route.params.username;
+    if (this.username) {
+      await this.fetchUserData();
+    }
+  },
+  methods: {
+    async fetchUserData() {
+      try {
+        const response = await axios.get(`${API_URL}/users/${this.username}`);
+        this.userData = response.data;
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
   }
 };
 </script>
