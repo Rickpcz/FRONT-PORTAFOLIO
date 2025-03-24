@@ -6,9 +6,9 @@
                 <h2>Mi Perfil</h2>
                 
                 <div class="profile-card">
-                    <img :src="user.imgUser == null ? user.imgUser :'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png'" alt="Foto de perfil" class="profile-img" />                    <h3>{{ user.nombre }}</h3>
+                    <img :src="user.imgUser != null ? user.imgUser :'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png'" alt="Foto de perfil" class="profile-img" />                    <h3>{{ user.nombre }}</h3>
                     <p><strong>Username:</strong> {{ user.username }}</p>
-                    <p><strong>Área:</strong> {{ user.area || 'NO ESPECIFICADA' }}</p>
+                    <p><strong>Área:</strong> {{ user.area_nombre || 'NO ESPECIFICADA' }}</p>
                 </div>
 
                 <div class="m-10">
@@ -43,6 +43,7 @@ export default {
             try {
                 const response = await axios.get(`${API_URL}/users/with-image/${localStorage.getItem('data')}`);
                 this.user = response.data;
+                console.log('User:', this.user.imgUser);
             } catch (error) {
                 console.error('Error fetching user:', error);
             }
@@ -82,6 +83,9 @@ export default {
 }
 
 .profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.2);

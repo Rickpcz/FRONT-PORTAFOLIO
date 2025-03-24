@@ -6,7 +6,7 @@
         <div class="flex items-center flex-wrap gap-3">
           <a href="/" class="flex items-center space-x-3 no-underline">
             <div class="flex items-center gap-2">
-              <img src="../../assets/profile.jpg" alt="Tu foto de perfil"
+              <img :src="portafolio.imgUser" alt="Tu foto de perfil"
                 class="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-primary)]" />
               <span class="text-xl font-bold text-[var(--color-text)]">
                 {{ usuario.nombre }}

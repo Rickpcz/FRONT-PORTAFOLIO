@@ -4,8 +4,14 @@
         <div class="container">
             <div class="grid-item full-width flex justify-between items-center">
                 <h4>Mis datos</h4>
-                <button type="submit" class="save-btn" @click.prevent="submitForm">Guardar</button>
+                <div class="flex gap-2 w-1/2 justify-end">
+                    <button type="submit" class="save-btn" @click.prevent="submitForm">Guardar</button>
+                    <button type="button" class="copy-link-btn" @click="copyPortfolioLink">
+                        <i class="bx bx-link"></i> Copiar enlace
+                    </button>
+                </div>
             </div>
+            <p></p>
             <form class="grid-container">
                 <!-- Primera fila: Portafolio -->
                 <div class="grid-item portfolio">
@@ -35,7 +41,7 @@
 
                     <!-- Campos de los proyectos dentro del v-for -->
                     <div v-for="(proyecto, index) in proyectos" :key="index" class="project-fields">
-                        <input type="file" accept="image/*" @change="handleFileUploadImageProject" />
+                        <input type="file" accept="image/*" @change="handleFileUploadImageProject($event, index)" />
                         <input v-model="proyecto.title" placeholder="Título" type="text" />
                         <textarea v-model="proyecto.description" placeholder="Descripción"></textarea>
                         <button v-if="proyectos.length > 1" type="button" @click="removeProject(index)"
@@ -172,6 +178,24 @@ export default {
         };
     },
     methods: {
+        addSoftSkill() {
+            this.habilidadesSuaves.push({ name: '' });
+        },
+
+        // Función para agregar una nueva herramienta
+        addTool() {
+            this.herramientas.push({ name: '' });
+        },
+
+        // Función para agregar un nuevo proyecto
+        addProject() {
+            this.proyectos.push({ title: '', description: '', img: '' });
+        },
+
+        // Función para agregar una nueva experiencia
+        addExperience() {
+            this.experiencias.push({ description: '', period: '', company_name: '' });
+        },
         async removeSoftSkill(index) {
             const skill = this.habilidadesSuaves[index];
             if (skill.id) {
@@ -180,7 +204,7 @@ export default {
                     icon: 'success',
                     title: '¡Habilidad eliminada!',
                     showConfirmButton: true,
-                    
+
                 });
             }
             this.habilidadesSuaves.splice(index, 1);
@@ -194,7 +218,7 @@ export default {
                     icon: 'success',
                     title: '¡Herramienta eliminada!',
                     showConfirmButton: true,
-                    
+
                 });
             }
             this.herramientas.splice(index, 1);
@@ -208,7 +232,7 @@ export default {
                     icon: 'success',
                     title: '¡Experiencia eliminada!',
                     showConfirmButton: true,
-                    
+
                 });
             }
             this.experiencias.splice(index, 1);
@@ -222,10 +246,29 @@ export default {
                     icon: 'success',
                     title: '¡Proyecto eliminado!',
                     showConfirmButton: true,
-                    
+
                 });
             }
             this.proyectos.splice(index, 1);
+        },
+        copyPortfolioLink() {
+            const portfolioLink = `${window.location.origin}/portafolio/${this.usuario.username}`;
+            navigator.clipboard.writeText(portfolioLink).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Enlace copiado!',
+                    text: portfolioLink,
+                    showConfirmButton: true,
+                });
+            }).catch(err => {
+                console.error('Error al copiar el enlace:', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo copiar el enlace.',
+                    showConfirmButton: true,
+                });
+            });
         },
         async submitForm() {
             try {
@@ -266,7 +309,6 @@ export default {
 
                     portafolioId = portafolioRes.data.id;
                 } else {
-                    ;
                     portafolioId = portafolioExistente.id;
                     console.log('portafolioExistente', portafolioId);
 
@@ -291,32 +333,36 @@ export default {
 
                 // Ahora continúa con las peticiones restantes (proyectos, experiencias, etc.)
                 console.log('proyectos');
-                const proyectosRequests = this.proyectos.map(async proyecto => {
+                const proyectosRequests = this.proyectos.map(async (proyecto, index) => {
+                    // Inicializa la URL de la imagen con el valor existente
                     let imgUrlProject = proyecto.imgproject || '';
 
-                    if (proyecto.img instanceof File) {
+                    // Verifica si se seleccionó un archivo para este proyecto
+                    if (proyecto.tempImg instanceof File) {
+                        console.log(`Subiendo imagen para el proyecto ${index}`);
                         const formData = new FormData();
                         formData.append('id', portafolioId);
-                        formData.append('image', proyecto.img);
+                        formData.append('image', proyecto.tempImg);
 
+                        // Sube la imagen y obtiene la URL
                         const uploadRes = await axios.post(`${API_URL}/proyectos/upload`, formData);
-                        imgUrlProject = uploadRes.data.imageUrl;
+                        imgUrlProject = uploadRes.data.imageUrl; // Asigna la URL de la imagen cargada
                     }
 
-                    console.log('proyecto actulizar o crear',);
-                    return proyecto.id ?
-                        axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
+                    // Crea o actualiza el proyecto con la URL de la imagen correspondiente
+                    if (proyecto.id) {
+                        return axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
                             id: proyecto.id,
                             titulo: proyecto.title,
                             descripcion: proyecto.description,
-                            imgproject: imgUrlProject
-                        }) :
-                        axios.post(`${API_URL}/proyectos`, {
+                        });
+                    } else {
+                        return axios.post(`${API_URL}/proyectos`, {
                             title: proyecto.title,
                             description: proyecto.description,
-                            imgproject: imgUrlProject,
-                            portafolioId: portafolioId
+                            portafolioId: portafolioId,
                         });
+                    }
                 });
 
                 // Maneja las experiencias, habilidades, herramientas y contacto exactamente como ya lo haces
@@ -389,11 +435,13 @@ export default {
                     contactoRequest
                 ]);
 
+                await this.loadUserData();
+
                 Swal.fire({
                     icon: 'success',
                     title: '¡Datos guardados!',
                     showConfirmButton: true,
-                    
+
                 });
             } catch (error) {
                 console.error('Error:', error);
@@ -407,10 +455,10 @@ export default {
                 this.portafolio.imgUser = file;
             }
         },
-        handleFileUploadImageProject(event) {
+        handleFileUploadImageProject(event, index) {
             const file = event.target.files[0];
             if (file) {
-                this.proyectos.img = file;
+                this.proyectos[index].tempImg = file; // 🔥 Este es el arreglo correcto
             }
         },
         async loadUserData() {
@@ -595,7 +643,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 20%;
+    width: 150px;
 }
 
 .save-btn:hover {
@@ -646,5 +694,20 @@ button {
     /* Scroll vertical si excede la altura */
     padding-right: 10px;
     /* Espaciado para el scroll */
+}
+
+.copy-link-btn {
+    background-color: var(--color-secondary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 200px;
+}
+
+.copy-link-btn:hover {
+    background-color: var(--color-secondary-offset);
 }
 </style>

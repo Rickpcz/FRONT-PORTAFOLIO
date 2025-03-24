@@ -6,35 +6,8 @@
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Columna izquierda: Habilidades técnicas -->
-        <div class="bg-[var(--color-bg)] p-6 rounded-lg shadow-lg w-100 h-125 mx-auto">
-          <h3 class="text-2xl font-bold mb-6 text-center text-[var(--color-text)] flex items-center justify-center">
-            <svg class="w-10 h-10 mr-2 text-[var(--color-primary)]" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-            </svg>
-            Tecnologías
-          </h3>
-
-          <div class="space-y-6 w-full flex flex-col items-center px-4">
-            <!-- Se añadió px-4 para el padding horizontal -->
-            <div v-for="skill in technicalSkills" :key="skill.name" class="skill-item w-full">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-[var(--color-text)]">{{ skill.name }}</span>
-                <span class="text-xs font-semibold text-[var(--color-primary)]">{{ skill.level }}%</span>
-              </div>
-              <div class="w-full bg-[var(--color-bg-offset)] rounded-full h-2.5">
-                <div class="bg-[var(--color-secondary)] h-2.5 rounded-full transition-all duration-500"
-                  :style="{ width: `${skill.level}%` }"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
         <!-- Columna derecha: Soft Skills y herramientas -->
-        <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-5">
           <!-- Soft Skills -->
           <div class="bg-[var(--color-bg)] p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
             <h3 class="text-2xl font-bold mb-6 text-center text-[var(--color-text)] flex items-center justify-center">
@@ -48,19 +21,19 @@
             </h3>
 
             <div class="grid grid-cols-2 gap-6">
-              <div v-for="skill in softSkills" :key="skill"
+              <div v-for="habilidad in habilidades" :key="habilidad.id"
                 class="flex items-center p-4 rounded-lg bg-[var(--color-bg)] hover:bg-[var(--color-primary)] hover:text-white transition-all gap-2 justify-center">
                 <div class="w-2 h-2 rounded-full bg-[var(--color-primary)] mr-2 "></div>
-                <span class="text-[var(--color-text)]">{{ skill }}</span>
+                <span class="text-[var(--color-text)]">{{ habilidad.name }}</span>
               </div>
               <!-- Agregar un div vacío al final para crear espacio -->
               <div class="w-full h-6"></div>
             </div>
           </div>
 
-
-          <!-- Herramientas -->
-          <div class="bg-[var(--color-bg)] p-6 rounded-lg shadow-sm flex flex-col items-center justify-center ">
+        </div>
+        <!-- Herramientas -->
+        <div class="bg-[var(--color-bg)] p-6 rounded-lg shadow-sm flex flex-col items-center justify-evenly">
             <h3 class="text-2xl font-bold mb-6 text-center text-[var(--color-text)] flex items-center justify-center">
               <svg class="w-10 h-10 mr-2 text-[var(--color-primary)]" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -74,17 +47,14 @@
             </h3>
 
             <div class="flex flex-wrap gap-3 justify-center">
-              <span v-for="tool in tools" :key="tool"
+              <span v-for="herramienta in herramientas" :key="herramienta.id"
                 class="px-4 py-2 rounded-full bg-[var(--color-bg-offset)] text-[var(--color-text-offset)] font-medium hover:bg-[var(--color-primary)] hover:text-white transition-colors cursor-default">
-                {{ tool }}
+                {{ herramienta.name }}
               </span>
               <!-- Agregamos un elemento vacío al final para crear el espacio -->
               <div class="w-full h-6"></div>
             </div>
-
           </div>
-
-        </div>
       </div>
     </div>
   </section>
@@ -92,32 +62,17 @@
 
 <script>
 export default {
-  name: 'PortfolioSkills',
-  data() {
-    return {
-      technicalSkills: [
-        { name: 'HTML/CSS', level: 95 },
-        { name: 'JavaScript', level: 90 },
-        { name: 'Vue.js', level: 92 },
-        { name: 'Tailwind CSS', level: 88 },
-        { name: 'Node.js', level: 75 },
-        { name: 'React', level: 70 },
-        { name: 'TypeScript', level: 65 },
-        { name: 'PHP', level: 60 }
-      ],
-      softSkills: [
-        'Trabajo en equipo',
-        'Comunicación',
-        'Resolución de problemas',
-        'Adaptabilidad',
-        'Gestión del tiempo',
-        'Atención al detalle'
-      ],
-      tools: [
-        'Git', 'VS Code', 'Figma', 'Adobe XD', 'Postman', 'npm', 'Webpack', 'Docker'
-      ]
+  props: {
+    habilidades: {
+      type: Array,
+      required: true
+    },
+    herramientas: {
+      type: Array,
+      required: true
     }
-  }
+  },
+  name: 'PortfolioSkills'
 };
 </script>
 

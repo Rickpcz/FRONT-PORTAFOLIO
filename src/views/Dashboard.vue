@@ -154,6 +154,8 @@ export default {
     gap: 20px;
 }
 
+
+
 .card {
     padding: 15px;
     border-radius: 8px;
@@ -162,6 +164,12 @@ export default {
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(5px);
     color: white;
+}
+
+.card:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .card-img {

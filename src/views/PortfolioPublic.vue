@@ -7,17 +7,17 @@
     <PortfolioAbout :usuario="usuario" :portafolio="portafolio"/>
 
     <!-- Sección de Proyectos -->
-    <PortfolioProjects />
+    <PortfolioProjects :proyectos="proyectos" />
 
     <!-- Sección de Habilidades -->
-    <PortfolioSkills />
+    <PortfolioSkills :habilidades="habilidadesSuaves" :herramientas="herramientas"/>
 
-
+    <PortafolioExperience :experiencias="experiencias" />
     <!-- Sección de Contacto -->
-    <PortfolioContact />
+    <PortfolioContact :contacto="contacto" />
 
     <!-- Footer -->
-    <PortfolioFooter />
+    <PortfolioFooter :contacto="contacto" :usuario="usuario" />
   </div>
 </template>
 
@@ -29,6 +29,7 @@ import PortfolioProjects from '../components/portafolio/PortfolioProjects.vue';
 import PortfolioContact from '../components/portafolio/PortfolioContact.vue';
 import PortfolioAbout from '../components/portafolio/PortfolioAbout.vue';
 import PortfolioFooter from '../components/portafolio/PortfolioFooter.vue';
+import PortafolioExperience from '../components/portafolio/PortafolioExperience.vue';
 
 import axios from 'axios';
 export default {
@@ -40,6 +41,7 @@ export default {
     PortfolioContact,
     PortfolioAbout,
     PortfolioFooter,
+    PortafolioExperience
   }, data() {
     return {
       username: null,

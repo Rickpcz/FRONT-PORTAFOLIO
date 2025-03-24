@@ -1,11 +1,11 @@
 <template>
-  <footer class="footer bg-[var(--color-bg-offset)] text-[var(--color-text-offset)] py-8">
+  <footer class="footer bg-[var(--color-bg)] text-[var(--color-text-offset)] py-8">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
         <!-- Información del autor -->
         <div class="footer__item">
           <p class="font-bold text-[var(--color-text)] mb-2">© 2023-2024</p>
-          <a href="/" class="hover:text-[var(--color-primary)]">Tu Nombre</a>
+          <a href="/" class="hover:text-[var(--color-primary)]">{{ usuario.nombre }}</a>
         </div>
 
         <!-- Trabajo -->
@@ -18,12 +18,15 @@
         <div class="footer__item">
           <p class="font-bold text-[var(--color-text)] mb-2">Social</p>
           <div class="flex flex-wrap gap-2">
-            <a href="https://github.com/tuusuario" class="hover:text-[var(--color-primary)]" rel="me"
-              title="Github">Github</a>
-            <a href="https://linkedin.com/in/tuusuario" class="hover:text-[var(--color-primary)]" rel="me"
-              title="LinkedIn">LinkedIn</a>
-            <a href="https://twitter.com/tuusuario" class="hover:text-[var(--color-primary)]" rel="me"
-              title="Twitter">Twitter</a>
+            <a :href="contacto.github" class="hover:text-[var(--color-primary)]" rel="me" title="Github" target="_blank">
+              Github
+            </a>
+            <a :href="contacto.linkedin" class="hover:text-[var(--color-primary)]" rel="me" title="LinkedIn" target="_blank">
+              LinkedIn
+            </a>
+            <a :href="contacto.twitter" class="hover:text-[var(--color-primary)]" rel="me" title="Twitter" target="_blank">
+              Twitter
+            </a>
           </div>
         </div>
 
@@ -51,9 +54,8 @@
         <!-- Botones de footer -->
         <div class="flex flex-wrap justify-center items-center space-x-4 gap-2">
           <!-- Botón de GitHub -->
-          <a href="https://github.com/tuusuario/turepositorio"
-            class="footer__icon text-[var(--color-text-offset)] hover:text-[var(--color-primary)]"
-            title="Ver código en Github">
+          <a :href="contacto.github" class="footer__icon text-[var(--color-text-offset)] hover:text-[var(--color-primary)]"
+            title="Ver código en Github" target="_blank">
             <span class="sr-only">Ver código en Github</span>
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fill-rule="evenodd"
@@ -62,16 +64,15 @@
             </svg>
           </a>
 
-          <!-- Botón de RSS -->
-          <a href="https://twitter.com/tuusuario"
-            class="footer__icon text-[var(--color-text-offset)] hover:text-[var(--color-primary)]" title="Twitter">
+          <!-- Botón de Twitter -->
+          <a :href="contacto.twitter" class="footer__icon text-[var(--color-text-offset)] hover:text-[var(--color-primary)]"
+            title="Twitter" target="_blank">
             <span class="sr-only">Twitter</span>
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M22.46 6.003c-.774.345-1.604.576-2.484.679.892-.533 1.576-1.378 1.898-2.382-.834.493-1.754.85-2.728 1.043-.785-.836-1.9-1.358-3.14-1.358-2.376 0-4.295 1.919-4.295 4.295 0 .336.037.664.106.978-3.568-.18-6.73-1.887-8.843-4.48-.37.634-.58 1.372-.58 2.16 0 1.492.759 2.804 1.91 3.57-.708-.023-1.375-.217-1.96-.542v.055c0 2.084 1.48 3.82 3.446 4.22-.358.097-.735.148-1.118.148-.274 0-.544-.027-.806-.078.545 1.698 2.13 2.93 3.998 2.96-1.46 1.145-3.31 1.83-5.266 1.83-.342 0-.679-.02-1.014-.06 1.88 1.2 4.13 1.9 6.53 1.9 7.876 0 12.2-6.525 12.2-12.2 0-.186-.004-.372-.014-.557.84-.605 1.57-1.356 2.15-2.211z" />
             </svg>
           </a>
-
 
           <!-- Botón para subir -->
           <a href="#top" class="footer__icon text-[var(--color-text-offset)] hover:text-[var(--color-primary)]"
@@ -96,7 +97,17 @@
 
 <script>
 export default {
-  name: 'PortfolioFooter'
+  name: 'PortfolioFooter',
+  props: {
+    contacto: {
+      type: Object,
+      required: true
+    },
+    usuario: {
+      type: Object,
+      required: true
+    },
+  },
 };
 </script>
 
