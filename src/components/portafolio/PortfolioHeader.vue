@@ -9,7 +9,7 @@
               <img src="../../assets/profile.jpg" alt="Tu foto de perfil"
                 class="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-primary)]" />
               <span class="text-xl font-bold text-[var(--color-text)]">
-                Tu Nombre
+                {{ usuario.nombre }}
                 <!-- Ícono de verificación -->
                 <span class="inline-flex ml-2">
                   <svg class="w-5 h-5 text-[var(--color-secondary)]" fill="currentColor" viewBox="0 0 24 24"
@@ -40,7 +40,7 @@
         </nav>
 
         <!-- Logo en escritorio / oculto en móviles -->
-        <img src="../../assets/mygradfolio.png" alt="Logo" class="w-20 h-10 max-w-full hidden md:block" />
+        <router-link to="/dashboard"><img src="../../assets/mygradfolio.png" alt="Logo" class="w-20 h-10 max-w-full hidden md:block" /></router-link>
 
         <!-- Botón de menú en móviles / oculto en escritorio -->
         <button @click="toggleNav"
@@ -75,6 +75,16 @@
 
 <script>
 export default {
+  props: {
+    usuario: {
+      type: Object,
+      required: true
+    },
+    portafolio: {
+      type: Object,
+      required: true
+    }
+  },
   name: 'PortfolioHeader',
   data() {
     return {

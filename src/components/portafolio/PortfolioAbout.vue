@@ -5,7 +5,7 @@
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-center md:text-left">
         <div class="md:col-span-4 flex justify-center">
           <div class="relative">
-            <img src="../../assets/profile.jpg" alt="Profile"
+            <img :src="portafolio.imgUser" alt="Profile"
               class="w-64 h-64 rounded-full object-cover border-4 border-[var(--color-primary)] shadow-lg" />
             <!-- <div
               class="absolute -bottom-4 -right-4 bg-[var(--color-bg)] border-4 border-[var(--color-primary)] rounded-full p-3 shadow-lg text-center">
@@ -17,18 +17,13 @@
 
         <div class="md:col-span-8">
           <h3 class="text-2xl font-bold mb-4 text-[var(--color-text)]">
-            <strong>Desarrollador Web Frontend</strong>
+            <strong>{{ portafolio.puesto }}</strong>
           </h3>
 
           <p class="mb-6 text-[var(--color-text-offset)]">
-            <strong>Soy un desarrollador con experiencia en Vue, Tailwind y otras tecnologías modernas del desarrollo
-              web.</strong> Me apasiona crear interfaces intuitivas y experiencias de usuario excepcionales.
+            {{ portafolio.skills }}
           </p>
 
-          <p class="mb-10 text-[var(--color-text-offset)]">
-            Mi enfoque se basa en construir aplicaciones web escalables y mantenibles, con código limpio y bien
-            estructurado. Siempre estoy en busca de nuevos desafíos y oportunidades para aprender y crecer.
-          </p>
 
           <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
             <!-- <div v-for="skill in skills" :key="skill.name"
@@ -66,6 +61,16 @@
 <script>
 export default {
   name: 'PortfolioAbout',
+  props: {
+    usuario: {
+      type: Object,
+      required: true
+    },
+    portafolio: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       // skills: [
