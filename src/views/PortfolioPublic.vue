@@ -14,7 +14,7 @@
 
     <PortafolioExperience :experiencias="experiencias" />
     <!-- Sección de Contacto -->
-    <PortfolioContact :contacto="contacto" />
+    <PortfolioContact :contacto="contacto" :usuario="usuario"/>
 
     <!-- Footer -->
     <PortfolioFooter :contacto="contacto" :usuario="usuario" />

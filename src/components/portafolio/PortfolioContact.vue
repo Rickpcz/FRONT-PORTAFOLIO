@@ -22,7 +22,8 @@
               </svg>
               <div>
                 <h4 class="text-sm font-bold text-[var(--color-text)]">Email</h4>
-                <a :href="`mailto:${contacto.correo}`" class="text-[var(--color-text-offset)] hover:text-[var(--color-primary)]">
+                <a :href="`mailto:${contacto.correo}`"
+                  class="text-[var(--color-text-offset)] hover:text-[var(--color-primary)]">
                   {{ contacto.correo || 'No disponible' }}
                 </a>
               </div>
@@ -38,7 +39,8 @@
               </svg>
               <div>
                 <h4 class="text-sm font-bold text-[var(--color-text)]">Teléfono</h4>
-                <a :href="`tel:${contacto.telefono}`" class="text-[var(--color-text-offset)] hover:text-[var(--color-primary)]">
+                <a :href="`tel:${contacto.telefono}`"
+                  class="text-[var(--color-text-offset)] hover:text-[var(--color-primary)]">
                   {{ contacto.telefono || 'No disponible' }}
                 </a>
               </div>
@@ -54,7 +56,8 @@
               </svg>
               <div>
                 <h4 class="text-sm font-bold text-[var(--color-text)]">LinkedIn</h4>
-                <a :href="contacto.linkedin" target="_blank" class="text-[var(--color-text-offset)] hover:text-[var(--color-primary)]">
+                <a :href="contacto.linkedin" target="_blank"
+                  class="text-[var(--color-text-offset)] hover:text-[var(--color-primary)]">
                   {{ contacto.linkedin || 'No disponible' }}
                 </a>
               </div>
@@ -64,19 +67,19 @@
 
         <!-- Formulario de contacto -->
         <div>
-          <form class="space-y-4 px-4">
+          <form class="space-y-4 px-4" @submit="enviarMensaje">
             <div>
               <label for="name" class="block text-base font-medium text-[var(--color-text)] mb-1 strong">Nombre</label>
               <input type="text" id="name" placeholder="Tu nombre"
                 class="w-full p-3 bg-[var(--color-bg-offset)] border border-transparent rounded-lg text-[var(--color-text)] focus:ring-[var(--color-primary)] focus:outline-none"
-                required />
+                required v-model="form.nombre"/>
             </div>
 
             <div>
               <label for="email" class="block text-base font-medium text-[var(--color-text)] mb-1 strong">Email</label>
               <input type="email" id="email" placeholder="tucorreo@ejemplo.com"
                 class="w-full p-3 bg-[var(--color-bg-offset)] border border-transparent rounded-lg text-[var(--color-text)] focus:ring-[var(--color-primary)] focus:outline-none"
-                required />
+                required  v-model="form.email"/>
             </div>
 
             <div>
@@ -84,14 +87,14 @@
                 class="block text-base font-medium text-[var(--color-text)] mb-1 strong">Asunto</label>
               <input type="text" id="subject" placeholder="Asunto de tu mensaje"
                 class="w-full p-3 bg-[var(--color-bg-offset)] border border-transparent rounded-lg text-[var(--color-text)] focus:ring-[var(--color-primary)] focus:outline-none"
-                required />
+                required v-model="form.asunto"/>
             </div>
 
             <div>
               <label for="message" class="block text-base font-medium text-[var(--color-text)] mb-1">Mensaje</label>
               <textarea id="message" rows="4" placeholder="Tu mensaje aquí..."
                 class="w-full p-3 bg-[var(--color-bg-offset)] border border-transparent rounded-lg text-[var(--color-text)] focus:ring-[var(--color-primary)] focus:outline-none"
-                required></textarea>
+                required v-model="form.mensaje"></textarea>
             </div>
 
             <button type="submit"
@@ -106,66 +109,114 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Swal from 'sweetalert2';
 export default {
   name: 'PortfolioContact',
   props: {
     contacto: {
       type: Object,
       required: true
+    },
+    usuario: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      form: {
+        nombre: '',
+        email: '',
+        asunto: '',
+        mensaje: ''
+      }
+    };
+  },
+  methods: {
+    async enviarMensaje(e) {
+      e.preventDefault();
+      try {
+        const payload = {
+          nombre: this.form.nombre,
+          email: this.form.email,
+          asunto: this.form.asunto,
+          mensaje: this.form.mensaje,
+          userName: this.usuario.username,
+          emailUser: this.contacto.correo
+        };
+
+        await axios.post(`${API_URL}/portafolios/email`, payload);
+
+        Swal.fire({
+          icon: 'success',
+          title: '¡Mensaje enviado!',
+          text: 'Tu mensaje se ha enviado correctamente.',
+        });
+
+        this.form = { nombre: '', email: '', asunto: '', mensaje: '' };
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al enviar mensaje',
+          text: error.response?.data?.error || 'Ocurrió un error inesperado.'
+        });
+      }
     }
   }
 };
+
 </script>
 
 <style scoped>
-  .portfolio-section {
-    padding: 3em;
+.portfolio-section {
+  padding: 3em;
+}
+
+.featuredpost__inner {
+  background-color: transparent;
+  border-radius: 1rem;
+  padding: 2rem;
+  /* Aumenta el espacio dentro de la tarjeta */
+  transition: background-color 0.3s ease;
+}
+
+.featuredpost__inner:hover {
+  background-color: transparent;
+}
+
+.featuredpost__image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.featuredpost__footer {
+  margin-top: 2rem;
+}
+
+.tech-tags span {
+  background-color: var(--color-bg-offset);
+  border-radius: 0.375rem;
+}
+
+.featuredposts__footer a:hover {
+  color: var(--color-primary-offset);
+  text-decoration: underline;
+}
+
+.featuredpost__title,
+.featuredpost__description {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.featuredpost__title:hover,
+.featuredpost__description:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  /* Más sombra */
+}
+
+@media screen and (max-width: 768px) {
+  .featuredposts__list {
+    grid-template-columns: 1fr;
   }
-  
-  .featuredpost__inner {
-    background-color: transparent;
-    border-radius: 1rem;
-    padding: 2rem;
-    /* Aumenta el espacio dentro de la tarjeta */
-    transition: background-color 0.3s ease;
-  }
-  
-  .featuredpost__inner:hover {
-    background-color: transparent;
-  }
-  
-  .featuredpost__image {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .featuredpost__footer {
-    margin-top: 2rem;
-  }
-  
-  .tech-tags span {
-    background-color: var(--color-bg-offset);
-    border-radius: 0.375rem;
-  }
-  
-  .featuredposts__footer a:hover {
-    color: var(--color-primary-offset);
-    text-decoration: underline;
-  }
-  
-  .featuredpost__title,
-  .featuredpost__description {
-    transition: box-shadow 0.3s ease-in-out;
-  }
-  
-  .featuredpost__title:hover,
-  .featuredpost__description:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    /* Más sombra */
-  }
-  
-  @media screen and (max-width: 768px) {
-    .featuredposts__list {
-      grid-template-columns: 1fr;
-    }
-  }
-  </style>
+}
+</style>

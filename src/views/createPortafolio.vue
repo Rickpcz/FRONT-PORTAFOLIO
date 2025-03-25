@@ -478,7 +478,7 @@ export default {
                 this.portafolio = {
                     imgUser: data.usuario.imgUser || '',
                     skills: data.usuario.skills || '',
-                    puesto: data.usuario.archievements || ''
+                    puesto: data.usuario.puesto || ''
                 };
 
                 // Datos contacto
