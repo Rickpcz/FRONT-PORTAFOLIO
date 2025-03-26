@@ -304,7 +304,7 @@ export default {
                         imgUser: imgUserUrl,
                         skills: this.portafolio.skills,
                         archievements: this.portafolio.puesto,
-                        userId
+                        userId,
                     });
 
                     portafolioId = portafolioRes.data.id;
@@ -334,36 +334,40 @@ export default {
                 // Ahora continúa con las peticiones restantes (proyectos, experiencias, etc.)
                 console.log('proyectos');
                 const proyectosRequests = this.proyectos.map(async (proyecto, index) => {
-                    // Inicializa la URL de la imagen con el valor existente
-                    let imgUrlProject = proyecto.imgproject || '';
+    let imgUrlProject = proyecto.imgproject || '';
 
-                    // Verifica si se seleccionó un archivo para este proyecto
-                    if (proyecto.tempImg instanceof File) {
-                        console.log(`Subiendo imagen para el proyecto ${index}`);
-                        const formData = new FormData();
-                        formData.append('id', portafolioId);
-                        formData.append('image', proyecto.tempImg);
+    // Verifica si se seleccionó un archivo para este proyecto
+    if (proyecto.tempImg instanceof File) {
+        const formData = new FormData();
+        formData.append('id', portafolioId);
+        formData.append('image', proyecto.tempImg);
 
-                        // Sube la imagen y obtiene la URL
-                        const uploadRes = await axios.post(`${API_URL}/proyectos/upload`, formData);
-                        imgUrlProject = uploadRes.data.imageUrl; // Asigna la URL de la imagen cargada
-                    }
+        // Sube la imagen y obtiene la URL
+        const uploadRes = await axios.post(`${API_URL}/proyectos/upload`, formData);
+        imgUrlProject = uploadRes.data.imageUrl; // Asigna la URL de la imagen cargada
+    }
 
-                    // Crea o actualiza el proyecto con la URL de la imagen correspondiente
-                    if (proyecto.id) {
-                        return axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
-                            id: proyecto.id,
-                            titulo: proyecto.title,
-                            descripcion: proyecto.description,
-                        });
-                    } else {
-                        return axios.post(`${API_URL}/proyectos`, {
-                            title: proyecto.title,
-                            description: proyecto.description,
-                            portafolioId: portafolioId,
-                        });
-                    }
-                });
+    // Actualiza la propiedad del proyecto
+    proyecto.imgproject = imgUrlProject;
+
+    // Ahora crea o actualiza el proyecto incluyendo la URL de la imagen
+    if (proyecto.id) {
+        return axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
+            id: proyecto.id,
+            titulo: proyecto.title,
+            descripcion: proyecto.description,
+            imgproject: imgUrlProject,  // <-- 🔥 Añadido aquí
+        });
+    } else {
+        return axios.post(`${API_URL}/proyectos`, {
+            title: proyecto.title,
+            description: proyecto.description,
+            imgproject: imgUrlProject, // <-- 🔥 Añadido aquí
+            portafolioId: portafolioId,
+        });
+    }
+});
+
 
                 // Maneja las experiencias, habilidades, herramientas y contacto exactamente como ya lo haces
                 console.log('experiencias');
