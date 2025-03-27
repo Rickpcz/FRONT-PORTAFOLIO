@@ -2,7 +2,7 @@
 import { useHead } from '@vueuse/head'
 
 useHead({
-  title: 'Portafolio de [Tu Nombre] | Desarrollador Web y Diseñador UX/UI',
+  title: 'MyGradfolio',
   meta: [
     {
       name: 'description',

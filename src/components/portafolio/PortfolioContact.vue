@@ -99,7 +99,8 @@
 
             <button type="submit"
               class="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-offset)] text-white font-medium py-3 rounded-lg transition-colors">
-              Enviar Mensaje
+              <span v-if="!isend">Enviar Mensaje</span>
+              <span v-else>Enviando...</span>
             </button>
           </form>
         </div>
@@ -125,6 +126,7 @@ export default {
   },
   data() {
     return {
+      isend: false,
       form: {
         nombre: '',
         email: '',
@@ -135,6 +137,7 @@ export default {
   },
   methods: {
     async enviarMensaje(e) {
+      this.isend = true;
       e.preventDefault();
       try {
         const payload = {
@@ -161,6 +164,9 @@ export default {
           title: 'Error al enviar mensaje',
           text: error.response?.data?.error || 'Ocurrió un error inesperado.'
         });
+      }
+      finally {
+        this.isend = false;
       }
     }
   }

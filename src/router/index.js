@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -32,5 +33,33 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+let inactivityTimer;
+
+const resetInactivityTimer = () => {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(() => {
+    localStorage.removeItem("auth");
+    Swal.fire({
+      icon: 'error',
+      title: 'Tu sesión ha expirado por inactividad.',
+      text: 'Por favor, inicia sesión nuevamente para continuar.',
+      showConfirmButton: true,
+      timer: 10000
+    });
+    router.push("/login"); 
+  }, 120 * 60 * 1000);
+};
+
+const setupInactivityListener = () => {
+  window.addEventListener("mousemove", resetInactivityTimer);
+  window.addEventListener("keydown", resetInactivityTimer);
+  window.addEventListener("click", resetInactivityTimer);
+  window.addEventListener("scroll", resetInactivityTimer);
+
+  resetInactivityTimer();
+};
+
+setupInactivityListener();
 
 export default router;
