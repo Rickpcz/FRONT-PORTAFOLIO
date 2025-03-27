@@ -7,6 +7,7 @@ const routes = [
   { path: "/dashboard", component: () => import("../views/Dashboard.vue") },
   { path: "/profile", component: () => import("../views/profile.vue") },
   { path: "/create", component: () => import("../views/createPortafolio.vue") },
+  { path: "/...", component: () => import("../views/NotFound.vue") },
   {
     path: "/portafolio/:username",
     component: () => import("../views/PortfolioPublic.vue"),
