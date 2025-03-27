@@ -8,11 +8,12 @@ const routes = [
   { path: "/dashboard", component: () => import("../views/Dashboard.vue") },
   { path: "/profile", component: () => import("../views/profile.vue") },
   { path: "/create", component: () => import("../views/createPortafolio.vue") },
-  { path: "/...", component: () => import("../views/NotFound.vue") },
   {
     path: "/portafolio/:username",
     component: () => import("../views/PortfolioPublic.vue"),
   },
+
+  { path: "/:pathMatch(.*)*", name: "NotFound", component: () => import("../views/NotFound.vue") },
 ];
 
 const router = createRouter({
@@ -29,6 +30,8 @@ router.beforeEach((to, from, next) => {
     next();
   } else if (!isAuthenticated) {
     next("/login");
+  } else if (to.name === "NotFound" && !isAuthenticated) {
+    next("/login");
   } else {
     next();
   }
@@ -37,6 +40,11 @@ router.beforeEach((to, from, next) => {
 let inactivityTimer;
 
 const resetInactivityTimer = () => {
+  const isAuthenticated = localStorage.getItem("auth");
+  if (!isAuthenticated) return; 
+
+  if (router.currentRoute.value.path.startsWith("/portafolio/")) return;
+
   clearTimeout(inactivityTimer);
   inactivityTimer = setTimeout(() => {
     localStorage.removeItem("auth");
@@ -52,6 +60,9 @@ const resetInactivityTimer = () => {
 };
 
 const setupInactivityListener = () => {
+  const isAuthenticated = localStorage.getItem("auth");
+  if (!isAuthenticated) return;
+
   window.addEventListener("mousemove", resetInactivityTimer);
   window.addEventListener("keydown", resetInactivityTimer);
   window.addEventListener("click", resetInactivityTimer);
