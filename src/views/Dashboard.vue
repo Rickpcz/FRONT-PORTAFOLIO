@@ -3,7 +3,6 @@
         <Navbar />
         <div class="content">
             <div class="container">
-                <h2>Explora Portafolios</h2>
                 
                 <!-- Filtro por Área -->
                 <div class="filter-container d-flex justify-content-between">

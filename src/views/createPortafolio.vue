@@ -5,7 +5,10 @@
             <div class="grid-item full-width flex justify-between items-center">
                 <h4>Mis datos</h4>
                 <div class="flex gap-2 w-1/2 justify-end">
-                    <button type="submit" class="save-btn" @click.prevent="submitForm">Guardar</button>
+                    <button type="submit" class="save-btn" @click.prevent="submitForm">
+                        <span v-if="!issend">Guardar</span>
+                        <span v-else>Guardando...</span>
+                    </button>
                     <button type="button" class="copy-link-btn" @click="copyPortfolioLink">
                         <i class="bx bx-link"></i> Copiar enlace
                     </button>
@@ -144,6 +147,7 @@ export default {
     },
     data() {
         return {
+            issend: false,
             idportafolio: '',
             contacto: {
                 description: '',
@@ -271,6 +275,7 @@ export default {
             });
         },
         async submitForm() {
+            this.issend = true;
             try {
                 const userId = localStorage.getItem('data');
 
@@ -448,8 +453,15 @@ export default {
 
                 });
             } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Hubo un error. Revisa la consola.');
+               Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo guardar los datos.',
+                    showConfirmButton: true,
+                });
+            }
+            finally {
+                this.issend = false;
             }
         },
 
