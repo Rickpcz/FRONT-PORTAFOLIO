@@ -12,7 +12,7 @@
             </div>
             <p></p>
             <form class="grid-container">
-                <!-- Primera fila: Portafolio -->
+
                 <div class="grid-item portfolio">
                     <h3 class="fs-form">Datos de Usuario</h3>
                     <input v-model="usuario.nombre" placeholder="Juan Perex Mendez" type="text" />
@@ -28,86 +28,94 @@
                 </div>
 
 
-                <!-- Segunda fila: Contacto, Experiencia, Proyecto -->
+
                 <div class="grid-item project">
-                    <!-- Título y botón de agregar fuera del v-for -->
+
                     <div class="grid-item flex items-center justify-between">
                         <h3 class="fs-form">Proyecto (s)</h3>
                         <button type="button" @click="addProject" class="add-btn-small">
-                            <i class="bx bx-plus"></i> <!-- Ícono de agregar de Boxicons -->
+                            <i class="bx bx-plus"></i>
                         </button>
                     </div>
 
-                    <!-- Campos de los proyectos dentro del v-for -->
-                    <div v-for="(proyecto, index) in proyectos" :key="index" class="project-fields">
-                        <input type="file" accept="image/*" @change="handleFileUploadImageProject($event, index)" />
-                        <input v-model="proyecto.title" placeholder="Título" type="text" />
-                        <textarea v-model="proyecto.description" placeholder="Descripción"></textarea>
-                        <button v-if="proyectos.length > 1" type="button" @click="removeProject(index)"
-                            class="remove-btn">
-                            <i class="bx bx-trash"></i> <!-- Ícono de basurero de Boxicons -->
-                        </button>
+
+                    <div class="scrollable-content">
+                        <div v-for="(proyecto, index) in proyectos" :key="index" class="project-fields">
+                            <input type="file" accept="image/*" @change="handleFileUploadImageProject($event, index)" />
+                            <input v-model="proyecto.title" placeholder="Título" type="text" />
+                            <textarea v-model="proyecto.description" placeholder="Descripción"></textarea>
+                            <button v-if="proyectos.length > 1" type="button" @click="removeProject(index)"
+                                class="remove-btn">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="grid-item-2 xp">
-                    <!-- Título y botón de agregar fuera del v-for -->
+
                     <div class="grid-item flex items-center justify-between">
                         <h3 class="fs-form">Experiencia</h3>
                         <button type="button" @click="addExperience" class="add-btn-small">
-                            <i class="bx bx-plus"></i> <!-- Ícono de agregar de Boxicons -->
+                            <i class="bx bx-plus"></i>
                         </button>
                     </div>
 
-                    <!-- Campos de las experiencias dentro del v-for -->
-                    <div v-for="(experience, index) in experiencias" :key="index" class="experience-fields">
-                        <textarea v-model="experience.description" placeholder="Descripción"></textarea>
-                        <input v-model="experience.period" placeholder="Período" type="text" />
-                        <input v-model="experience.company_name" placeholder="Nombre de la Empresa" type="text" />
-                        <button v-if="experiencias.length > 1" type="button" @click="removeExperience(index)"
-                            class="remove-btn">
-                            <i class="bx bx-trash"></i> <!-- Ícono de basurero de Boxicons -->
-                        </button>
+                    <div class="scrollable-content">
+                        <div v-for="(experience, index) in experiencias" :key="index" class="experience-fields">
+                            <textarea v-model="experience.description" placeholder="Descripción"></textarea>
+                            <input v-model="experience.period" placeholder="Período" type="text" />
+                            <input v-model="experience.company_name" placeholder="Nombre de la Empresa" type="text" />
+                            <button v-if="experiencias.length > 1" type="button" @click="removeExperience(index)"
+                                class="remove-btn">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                        </div>
                     </div>
+
+
                 </div>
 
 
                 <div class="grid-item-2 skills">
-                    <!-- Título y botón de agregar fuera del v-for -->
                     <div class="grid-item flex items-center justify-between">
                         <h3 class="fs-form">Habilidades Suaves</h3>
                         <button type="button" @click="addSoftSkill" class="add-btn-small">
-                            <i class="bx bx-plus"></i> <!-- Ícono de agregar de Boxicons -->
+                            <i class="bx bx-plus"></i>
                         </button>
                     </div>
 
-                    <!-- Campos de habilidades suaves dentro del v-for -->
-                    <div v-for="(skill, index) in habilidadesSuaves" :key="index" class="skills-fields">
-                        <input v-model="skill.name" placeholder="Comuinación, Trabajo en equipo, etc." type="text" />
-                        <button v-if="habilidadesSuaves.length > 1" type="button" @click="removeSoftSkill(index)"
-                            class="remove-btn">
-                            <i class="bx bx-trash"></i> <!-- Ícono de basurero de Boxicons -->
-                        </button>
+                    <div class="scrollable-content">
+                        <div v-for="(skill, index) in habilidadesSuaves" :key="index" class="skills-fields">
+                            <input v-model="skill.name" placeholder="Comuinación, Trabajo en equipo, etc."
+                                type="text" />
+                            <button v-if="habilidadesSuaves.length > 1" type="button" @click="removeSoftSkill(index)"
+                                class="remove-btn">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="grid-item-2 tools">
-                    <!-- Título y botón de agregar fuera del v-for -->
                     <div class="grid-item flex items-center justify-between">
                         <h3 class="fs-form">Herramientas/Tecnologías</h3>
                         <button type="button" @click="addTool" class="add-btn-small">
-                            <i class="bx bx-plus"></i> <!-- Ícono de agregar de Boxicons -->
+                            <i class="bx bx-plus"></i>
                         </button>
                     </div>
 
-                    <!-- Campos de herramientas dentro del v-for -->
-                    <div v-for="(tool, index) in herramientas" :key="index" class="tools-fields">
-                        <input v-model="tool.name" placeholder="Excel, Bases de Datos, Redes Sociales, etc."
-                            type="text" />
-                        <button v-if="herramientas.length > 1" type="button" @click="removeTool(index)"
-                            class="remove-btn">
-                            <i class="bx bx-trash"></i> <!-- Ícono de basurero de Boxicons -->
-                        </button>
+                    <div class="scrollable-content">
+                        <div v-for="(tool, index) in herramientas" :key="index" class="tools-fields">
+                            <input v-model="tool.name" placeholder="Excel, Bases de Datos, Redes Sociales, etc."
+                                type="text" />
+                            <button v-if="herramientas.length > 1" type="button" @click="removeTool(index)"
+                                class="remove-btn">
+                                <i class="bx bx-trash"></i>
+                            </button>
+                        </div>
                     </div>
+
                 </div>
 
 
@@ -121,8 +129,6 @@
                     <input v-model="contacto.linkedin" placeholder="LinkedIn" type="url" />
                     <input v-model="contacto.github" placeholder="GitHub" type="url" />
                 </div>
-
-                <!-- Botón de envío -->
 
             </form>
             <button type="submit" class="save-btn" @click.prevent="submitForm">
@@ -169,24 +175,24 @@ export default {
                 puesto: ''
             },
             experiencias: [
-                { description: '', period: '', company_name: '' } // Experiencia inicial
+                { description: '', period: '', company_name: '' }
             ],
             proyectos: [
-                { title: '', description: '', img: '' } // Proyecto inicial
+                { title: '', description: '', img: '' }
             ],
             habilidadesSuaves: [
-                { name: '' } // Habilidad inicial
+                { name: '' }
             ],
             herramientas: [
-                { name: '' } // Herramienta inicial
+                { name: '' }
             ]
         };
     },
     methods: {
         validateTelefono(event) {
-        const value = event.target.value.replace(/\D/g, '');
-        this.contacto.telefono = value;
-    },
+            const value = event.target.value.replace(/\D/g, '');
+            this.contacto.telefono = value;
+        },
         addSoftSkill() {
             this.habilidadesSuaves.push({ name: '' });
         },
@@ -281,6 +287,55 @@ export default {
             try {
                 const userId = localStorage.getItem('data');
 
+                // Validación de campos obligatorios
+                const missingFields = [];
+
+                // Validar proyectos
+                this.proyectos.forEach((proyecto, index) => {
+                    if (!proyecto.id && (!proyecto.title || !proyecto.description)) {
+                        missingFields.push(`Proyecto (s): Título y Descripción son obligatorios.`);
+                    }
+                });
+
+                // Validar experiencias
+                this.experiencias.forEach((exp, index) => {
+                    if (!exp.id && (!exp.description || !exp.period || !exp.company_name)) {
+                        missingFields.push(`Experiencias (s): Descripción, Período y Nombre de la Empresa son obligatorios.`);
+                    }
+                });
+
+                // Validar habilidades suaves
+                this.habilidadesSuaves.forEach((skill, index) => {
+                    if (!skill.id && !skill.name) {
+                        missingFields.push(`Habilidad Suave (s): Nombre es obligatorio.`);
+                    }
+                });
+
+                // Validar herramientas
+                this.herramientas.forEach((tool, index) => {
+                    if (!tool.id && !tool.name) {
+                        missingFields.push(`Herramienta(s): Nombre es obligatorio.`);
+                    }
+                });
+
+                // Validar contacto
+                if (!this.contacto.id && (!this.contacto.telefono || !this.contacto.correo || !this.contacto.linkedin || !this.contacto.github)) {
+                    missingFields.push('Contacto: Teléfono, Correo, LinkedIn y GitHub son obligatorios.');
+                }
+
+                // Si hay campos faltantes, mostrar alerta y detener el proceso
+                if (missingFields.length > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Campos obligatorios faltantes',
+                        html: `<ul>${missingFields.map(field => `<li>${field}</li>`).join('')}</ul>`,
+                        showConfirmButton: true,
+                    });
+                    this.issend = false;
+                    return;
+                }
+
+                // Verificar si el portafolio ya existe
                 let portafolioExistente;
                 let portafolioId;
 
@@ -291,12 +346,11 @@ export default {
                     if (error.response && error.response.status === 404) {
                         portafolioExistente = null;
                     } else {
-                        throw error; // otro error inesperado
+                        throw error;
                     }
                 }
 
                 if (!portafolioExistente) {
-                    // Primero sube la imagen para obtener la URL
                     const formData = new FormData();
                     formData.append('id', userId);
                     formData.append('image', this.portafolio.imgUser);
@@ -306,7 +360,8 @@ export default {
                     });
                     const imgUserUrl = uploadRes.data.imageUrl;
 
-                    // Ahora crea el portafolio
+
+
                     const portafolioRes = await axios.post(`${API_URL}/portafolios`, {
                         imgUser: imgUserUrl,
                         skills: this.portafolio.skills,
@@ -317,9 +372,7 @@ export default {
                     portafolioId = portafolioRes.data.id;
                 } else {
                     portafolioId = portafolioExistente.id;
-                    console.log('portafolioExistente', portafolioId);
 
-                    // Si el usuario subió una imagen nueva, actualiza
                     if (this.portafolio.imgUser instanceof File) {
                         const formData = new FormData();
                         formData.append('id', portafolioId);
@@ -329,8 +382,9 @@ export default {
                             headers: { 'Content-Type': 'multipart/form-data' }
                         });
                         this.portafolio.imgUser = uploadRes.data.imageUrl;
+
                     }
-                    console.log('actualiza portafolio');
+
                     await axios.put(`${API_URL}/portafolios/update`, {
                         id: portafolioId,
                         skills: this.portafolio.skills,
@@ -338,46 +392,41 @@ export default {
                     });
                 }
 
-                // Ahora continúa con las peticiones restantes (proyectos, experiencias, etc.)
-                console.log('proyectos');
+                // Crear o actualizar proyectos
                 const proyectosRequests = this.proyectos.map(async (proyecto, index) => {
                     let imgUrlProject = proyecto.imgproject || '';
 
-                    // Verifica si se seleccionó un archivo para este proyecto
                     if (proyecto.tempImg instanceof File) {
                         const formData = new FormData();
                         formData.append('id', portafolioId);
                         formData.append('image', proyecto.tempImg);
 
-                        // Sube la imagen y obtiene la URL
                         const uploadRes = await axios.post(`${API_URL}/proyectos/upload`, formData);
-                        imgUrlProject = uploadRes.data.imageUrl; // Asigna la URL de la imagen cargada
+                        imgUrlProject = uploadRes.data.imageUrl;
                     }
 
-                    // Actualiza la propiedad del proyecto
                     proyecto.imgproject = imgUrlProject;
 
-                    // Ahora crea o actualiza el proyecto incluyendo la URL de la imagen
+                    console.log('proyecto', proyecto.imgproject);
+
                     if (proyecto.id) {
                         return axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
                             id: proyecto.id,
                             titulo: proyecto.title,
                             descripcion: proyecto.description,
-                            imgproject: imgUrlProject,  // <-- 🔥 Añadido aquí
+                            imgproject: imgUrlProject,
                         });
                     } else {
                         return axios.post(`${API_URL}/proyectos`, {
                             title: proyecto.title,
                             description: proyecto.description,
-                            imgproject: imgUrlProject, // <-- 🔥 Añadido aquí
+                            imgproject: imgUrlProject,
                             portafolioId: portafolioId,
                         });
                     }
                 });
 
-
-                // Maneja las experiencias, habilidades, herramientas y contacto exactamente como ya lo haces
-                console.log('experiencias');
+                // Crear o actualizar experiencias
                 const experienciasRequests = this.experiencias.map(exp => (
                     exp.id ? axios.put(`${API_URL}/experiencias/${exp.id}`, {
                         id: exp.id,
@@ -392,8 +441,7 @@ export default {
                     })
                 ));
 
-                console.log('habilidades');
-
+                // Crear o actualizar habilidades suaves
                 const habilidadesRequests = this.habilidadesSuaves.map(skill => (
                     skill.id ? axios.put(`${API_URL}/habilidades/${skill.id}`, {
                         id: skill.id,
@@ -404,8 +452,7 @@ export default {
                     })
                 ));
 
-                console.log('herramientas');
-
+                // Crear o actualizar herramientas
                 const herramientasRequests = this.herramientas.map(tool => (
                     tool.id ? axios.put(`${API_URL}/herramientas/${tool.id}`, {
                         id: tool.id,
@@ -416,34 +463,32 @@ export default {
                     })
                 ));
 
-                console.log('contacto');
-
-                const contactoRequest = this.contacto.id ?
-                    axios.put(`${API_URL}/contactos/${this.contacto.id}`, {
+                // Crear o actualizar contacto
+                const contactoRequest = this.contacto.id
+                    ? axios.put(`${API_URL}/contactos/${this.contacto.id}`, {
                         telefono: this.contacto.telefono,
                         linkedin: this.contacto.linkedin,
                         github: this.contacto.github,
                         correo: this.contacto.correo,
                         descripcion: this.contacto.description,
-                        twitter: this.contacto.twitter
-                    }) : axios.post(`${API_URL}/contactos`, {
+                        twitter: this.contacto.twitter,
+                    })
+                    : axios.post(`${API_URL}/contactos`, {
                         user_id: userId,
                         telefono: this.contacto.telefono,
                         linkedin: this.contacto.linkedin,
                         github: this.contacto.github,
                         correo: this.contacto.correo,
                         descripcion: this.contacto.description,
-                        twitter: this.contacto.twitter
+                        twitter: this.contacto.twitter,
                     });
-
-                console.log('todas las peticiones');
 
                 await Promise.all([
                     ...proyectosRequests,
                     ...experienciasRequests,
                     ...habilidadesRequests,
                     ...herramientasRequests,
-                    contactoRequest
+                    contactoRequest,
                 ]);
 
                 await this.loadUserData();
@@ -452,8 +497,8 @@ export default {
                     icon: 'success',
                     title: '¡Datos guardados!',
                     showConfirmButton: true,
-
                 });
+                this.$router.push({ path: `/portafolio/${this.usuario.username}` });
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
@@ -461,8 +506,7 @@ export default {
                     text: 'No se pudo guardar los datos.',
                     showConfirmButton: true,
                 });
-            }
-            finally {
+            } finally {
                 this.issend = false;
             }
         },
@@ -476,7 +520,7 @@ export default {
         handleFileUploadImageProject(event, index) {
             const file = event.target.files[0];
             if (file) {
-                this.proyectos[index].tempImg = file; // 🔥 Este es el arreglo correcto
+                this.proyectos[index].tempImg = file;
             }
         },
         async loadUserData() {
@@ -485,7 +529,6 @@ export default {
             try {
                 const { data } = await axios.get(`${API_URL}/users/alldata/${userId}`);
 
-                // Datos básicos usuario y portafolio
                 this.usuario = {
                     nombre: data.usuario.nombre || '',
                     username: data.usuario.username || ''
@@ -499,7 +542,7 @@ export default {
                     puesto: data.usuario.puesto || ''
                 };
 
-                // Datos contacto
+
                 this.contacto = {
                     id: data.contacto.id || null,
                     telefono: data.contacto.telefono || '',
@@ -510,7 +553,7 @@ export default {
                     twitter: data.contacto.twitter || ''
                 };
 
-                // Arrays múltiples
+
                 this.proyectos = data.proyectos.length
                     ? data.proyectos.map(p => ({
                         id: p.id,
@@ -671,47 +714,33 @@ button {
 .skills-fields,
 .tools-fields {
     margin-top: 20px;
-    /* Espaciado entre formularios */
+
 }
 
-/* Limitar la altura de la sección de habilidades suaves */
+
 .skills {
-    max-height: 300px;
-    /* Altura máxima */
-    overflow-y: auto;
-    /* Scroll vertical si excede la altura */
-    padding-right: 10px;
-    /* Espaciado para el scroll */
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
 }
 
-/* Limitar la altura de la sección de herramientas/tecnologías */
 .tools {
-    max-height: 300px;
-    /* Altura máxima */
-    overflow-y: auto;
-    /* Scroll vertical si excede la altura */
-    padding-right: 10px;
-    /* Espaciado para el scroll */
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
 }
 
 
 .project {
-    max-height: 300px;
-    /* Altura máxima */
-    overflow-y: auto;
-    /* Scroll vertical si excede la altura */
-    padding-right: 10px;
-    /* Espaciado para el scroll */
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
 }
 
-/* Limitar la altura de la sección de experiencia */
 .xp {
-    max-height: 300px;
-    /* Altura máxima */
-    overflow-y: auto;
-    /* Scroll vertical si excede la altura */
-    padding-right: 10px;
-    /* Espaciado para el scroll */
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
 }
 
 .copy-link-btn {
@@ -727,5 +756,11 @@ button {
 
 .copy-link-btn:hover {
     background-color: var(--color-secondary-offset);
+}
+
+.scrollable-content {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 </style>
