@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div v-if="loading" class="loading-spinner-container">
+        <div class="spinner"></div>
+    </div>
+    <div v-else>
         <Navbar />
         <div class="container">
             <div class="grid-item full-width flex justify-between items-center">
@@ -85,11 +88,12 @@
                     </div>
 
                     <div class="scrollable-content">
-                        <div v-for="(skill, index) in habilidadesSuaves" :key="index" class="skills-fields">
-                            <input v-model="skill.name" placeholder="Comuinación, Trabajo en equipo, etc."
-                                type="text" />
+                        <div v-for="(skill, index) in habilidadesSuaves" :key="index"
+                            class="skills-fields flex align-center w-full">
+                            <input v-model="skill.name" placeholder="Comuinación, Trabajo en equipo, etc." type="text"
+                                class="w-full" />
                             <button v-if="habilidadesSuaves.length > 1" type="button" @click="removeSoftSkill(index)"
-                                class="remove-btn">
+                                class="remove-btn w-[20px]">
                                 <i class="bx bx-trash"></i>
                             </button>
                         </div>
@@ -106,7 +110,8 @@
                     </div>
 
                     <div class="scrollable-content">
-                        <div v-for="(tool, index) in herramientas" :key="index" class="tools-fields">
+                        <div v-for="(tool, index) in herramientas" :key="index"
+                            class="tools-fields skills-fields flex align-center w-full">
                             <input v-model="tool.name" placeholder="Excel, Bases de Datos, Redes Sociales, etc."
                                 type="text" />
                             <button v-if="herramientas.length > 1" type="button" @click="removeTool(index)"
@@ -154,6 +159,7 @@ export default {
     },
     data() {
         return {
+            loading: false,
             issend: false,
             idportafolio: '',
             contacto: {
@@ -525,7 +531,7 @@ export default {
         },
         async loadUserData() {
             const userId = localStorage.getItem('data');
-
+            this.loading = true;
             try {
                 const { data } = await axios.get(`${API_URL}/users/alldata/${userId}`);
 
@@ -584,6 +590,8 @@ export default {
 
             } catch (error) {
                 console.error('Error al cargar:', error);
+            } finally {
+                this.loading = false;
             }
         }
 
@@ -672,7 +680,8 @@ button {
     font-size: 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
+    transition: color 0.3s ease;
 }
 
 .remove-btn:hover {
@@ -713,7 +722,10 @@ button {
 
 .skills-fields,
 .tools-fields {
-    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    /* Espaciado entre el input y el botón */
+    margin-top: 10px;
 
 }
 
@@ -723,6 +735,15 @@ button {
     overflow: visible;
     padding-right: 0;
 }
+
+.skill-input {
+    flex: 1;
+    /* Hace que el input ocupe todo el espacio disponible */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 
 .tools {
     max-height: none;
@@ -762,5 +783,73 @@ button {
     max-height: 300px;
     overflow-y: auto;
     padding-right: 10px;
+}
+
+
+.skills-fields {
+    display: flex;
+    gap: 10px;
+    /* Espaciado entre el input y el botón */
+    margin-top: 10px;
+}
+
+input.w-full {
+    flex: 1;
+    /* Hace que el input ocupe todo el espacio disponible */
+    padding: 8px;
+    border-radius: 4px;
+}
+
+button.remove-btn {
+    background: none;
+    border: none;
+    color: var(--color-danger);
+    cursor: pointer;
+    font-size: 1.5rem;
+    width: 40px;
+    /* Ancho fijo para el botón */
+    height: 40px;
+    /* Alto fijo para el botón */
+    transition: color 0.3s ease;
+}
+
+button.remove-btn:hover {
+    color: var(--color-danger-hover);
+}
+
+.loading-spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Fondo semitransparente */
+    z-index: 9999;
+    /* Asegura que el spinner esté por encima de otros elementos */
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    /* Color del borde */
+    border-top: 5px solid var(--color-primary);
+    /* Color del borde superior */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>

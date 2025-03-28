@@ -1,5 +1,10 @@
 <template>
-  <div v-if="portafolioVacio" class="flex flex-col items-center justify-center h-screen p-4 rounded text-center">
+  <div v-if="loading" class="loading-spinner-container">
+        <div class="spinner"></div>
+    </div>
+
+  <div v-else>
+    <div v-if="portafolioVacio" class="flex flex-col items-center justify-center h-screen p-4 rounded text-center">
     <p class="text-4xl font-bold text-[var(--color-text)] mt-4">Sin datos en el portafolio</p>
     <p class="text-[var(--color-text-offset)] mt-2">Favor de crearlo para visualizar su contenido.</p>
     <router-link to="/create"
@@ -35,6 +40,7 @@
 
     <!-- Footer -->
     <PortfolioFooter v-if="!contactovacios" :contacto="contacto" :usuario="usuario" />
+  </div>
   </div>
 </template>
 
@@ -211,3 +217,36 @@ export default {
   }
 };
 </script>
+
+<style>
+.loading-spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+    z-index: 9999; /* Asegura que el spinner esté por encima de otros elementos */
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc; /* Color del borde */
+    border-top: 5px solid var(--color-primary); /* Color del borde superior */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>
