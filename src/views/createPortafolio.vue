@@ -5,10 +5,6 @@
             <div class="grid-item full-width flex justify-between items-center">
                 <h4>Mis datos</h4>
                 <div class="flex gap-2 w-1/2 justify-end">
-                    <button type="submit" class="save-btn" @click.prevent="submitForm">
-                        <span v-if="!issend">Guardar</span>
-                        <span v-else>Guardando...</span>
-                    </button>
                     <button type="button" class="copy-link-btn" @click="copyPortfolioLink">
                         <i class="bx bx-link"></i> Copiar enlace
                     </button>
@@ -118,16 +114,21 @@
                 <div class="grid-item-3 contact">
                     <h3 class="fs-form">Contacto</h3>
                     <textarea v-model="contacto.description" placeholder="Descripción"></textarea>
-                    <input v-model="contacto.telefono" placeholder="Teléfono" type="text" />
+                    <input v-model="contacto.telefono" placeholder="Teléfono" type="tel" pattern="[0-9]*"
+                        @input="validateTelefono" />
                     <input v-model="contacto.correo" placeholder="Correo" type="email" />
-                    <input v-model="contacto.twitter" placeholder="Twitter" type="text" />
-                    <input v-model="contacto.linkedin" placeholder="LinkedIn" type="text" />
-                    <input v-model="contacto.github" placeholder="GitHub" type="text" />
+                    <input v-model="contacto.twitter" placeholder="Twitter" type="url" />
+                    <input v-model="contacto.linkedin" placeholder="LinkedIn" type="url" />
+                    <input v-model="contacto.github" placeholder="GitHub" type="url" />
                 </div>
 
                 <!-- Botón de envío -->
 
             </form>
+            <button type="submit" class="save-btn" @click.prevent="submitForm">
+                <span v-if="!issend">Guardar</span>
+                <span v-else>Guardando...</span>
+            </button>
         </div>
         <Footer />
     </div>
@@ -182,21 +183,22 @@ export default {
         };
     },
     methods: {
+        validateTelefono(event) {
+        const value = event.target.value.replace(/\D/g, '');
+        this.contacto.telefono = value;
+    },
         addSoftSkill() {
             this.habilidadesSuaves.push({ name: '' });
         },
 
-        // Función para agregar una nueva herramienta
         addTool() {
             this.herramientas.push({ name: '' });
         },
 
-        // Función para agregar un nuevo proyecto
         addProject() {
             this.proyectos.push({ title: '', description: '', img: '' });
         },
 
-        // Función para agregar una nueva experiencia
         addExperience() {
             this.experiencias.push({ description: '', period: '', company_name: '' });
         },
@@ -339,39 +341,39 @@ export default {
                 // Ahora continúa con las peticiones restantes (proyectos, experiencias, etc.)
                 console.log('proyectos');
                 const proyectosRequests = this.proyectos.map(async (proyecto, index) => {
-    let imgUrlProject = proyecto.imgproject || '';
+                    let imgUrlProject = proyecto.imgproject || '';
 
-    // Verifica si se seleccionó un archivo para este proyecto
-    if (proyecto.tempImg instanceof File) {
-        const formData = new FormData();
-        formData.append('id', portafolioId);
-        formData.append('image', proyecto.tempImg);
+                    // Verifica si se seleccionó un archivo para este proyecto
+                    if (proyecto.tempImg instanceof File) {
+                        const formData = new FormData();
+                        formData.append('id', portafolioId);
+                        formData.append('image', proyecto.tempImg);
 
-        // Sube la imagen y obtiene la URL
-        const uploadRes = await axios.post(`${API_URL}/proyectos/upload`, formData);
-        imgUrlProject = uploadRes.data.imageUrl; // Asigna la URL de la imagen cargada
-    }
+                        // Sube la imagen y obtiene la URL
+                        const uploadRes = await axios.post(`${API_URL}/proyectos/upload`, formData);
+                        imgUrlProject = uploadRes.data.imageUrl; // Asigna la URL de la imagen cargada
+                    }
 
-    // Actualiza la propiedad del proyecto
-    proyecto.imgproject = imgUrlProject;
+                    // Actualiza la propiedad del proyecto
+                    proyecto.imgproject = imgUrlProject;
 
-    // Ahora crea o actualiza el proyecto incluyendo la URL de la imagen
-    if (proyecto.id) {
-        return axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
-            id: proyecto.id,
-            titulo: proyecto.title,
-            descripcion: proyecto.description,
-            imgproject: imgUrlProject,  // <-- 🔥 Añadido aquí
-        });
-    } else {
-        return axios.post(`${API_URL}/proyectos`, {
-            title: proyecto.title,
-            description: proyecto.description,
-            imgproject: imgUrlProject, // <-- 🔥 Añadido aquí
-            portafolioId: portafolioId,
-        });
-    }
-});
+                    // Ahora crea o actualiza el proyecto incluyendo la URL de la imagen
+                    if (proyecto.id) {
+                        return axios.put(`${API_URL}/proyectos/${proyecto.id}`, {
+                            id: proyecto.id,
+                            titulo: proyecto.title,
+                            descripcion: proyecto.description,
+                            imgproject: imgUrlProject,  // <-- 🔥 Añadido aquí
+                        });
+                    } else {
+                        return axios.post(`${API_URL}/proyectos`, {
+                            title: proyecto.title,
+                            description: proyecto.description,
+                            imgproject: imgUrlProject, // <-- 🔥 Añadido aquí
+                            portafolioId: portafolioId,
+                        });
+                    }
+                });
 
 
                 // Maneja las experiencias, habilidades, herramientas y contacto exactamente como ya lo haces
@@ -453,7 +455,7 @@ export default {
 
                 });
             } catch (error) {
-               Swal.fire({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'No se pudo guardar los datos.',
@@ -659,7 +661,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 150px;
+    width: 100%;
 }
 
 .save-btn:hover {

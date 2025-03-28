@@ -7,7 +7,7 @@
       </div>
       <h1 class="text-4xl font-bold text-[var(--color-text)] mt-4"><strong>Página no encontrada</strong></h1>
       <p class="text-[var(--color-text-offset)] mt-2">Lo sentimos, la página que buscas no existe.</p>
-      <router-link to="/" class="mt-6 w-full max-w-[200px] py-3 bg-[var(--color-secondary)] text-white rounded-lg hover:bg-opacity-80 transition">
+      <router-link to="/dashboard" class="mt-6 w-full max-w-[200px] py-3 bg-[var(--color-secondary)] text-white rounded-lg hover:bg-opacity-80 transition">
         <strong> Volver al inicio</strong> 
       </router-link>
     </div>

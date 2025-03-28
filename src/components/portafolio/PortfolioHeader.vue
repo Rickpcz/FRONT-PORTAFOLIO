@@ -90,9 +90,10 @@ export default {
     return {
       isNavOpen: false,
       navItems: [
-        { label: 'Inicio', url: '#about', active: true },
+        { label: 'Inicio', url: '#about', active: false },
         { label: 'Proyectos', url: '#projects', active: false },
         { label: 'Habilidades', url: '#skills', active: false },
+        { label: 'Experiencia', url: '#experience', active: false },
         { label: 'Contacto', url: '#contact', active: false }
       ]
     };

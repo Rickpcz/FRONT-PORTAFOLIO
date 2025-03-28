@@ -14,7 +14,11 @@
                 </div>
                 
                 <!-- Lista de Portafolios -->
-                <div class="grid-container">
+                 <div v-if="vacio" class="flex flex-col items-center justify-center p-4 rounded text-center">
+                    <p class="text-4xl font-bold text-[var(--color-text)] mt-4">Opps! No hay datos</p>
+      <p class="text-[var(--color-text-offset)] mt-2">No se encontró portafolios para esa área seleccionada.</p>
+                 </div>
+                <div class="grid-container" v-else>
                     <div 
                         v-for="portafolio in filteredPortfolios" 
                         :key="portafolio.id" 
@@ -43,6 +47,7 @@ export default {
     },
     data() {
         return {
+            vacio: false,
             selectedArea: '',
             areas: [],
             user: [],
@@ -95,12 +100,14 @@ export default {
             }
         },
         filterPortfolios() {
-            if (this.selectedArea) {
-                this.filteredPortfolios = this.user.filter(p => p.area_id == this.selectedArea);
-            } else {
-                this.filteredPortfolios = this.user;
-            }
-        },
+    if (this.selectedArea) {
+        this.filteredPortfolios = this.user.filter(p => p.area_id == this.selectedArea);
+        this.vacio = this.filteredPortfolios.length === 0; // Verifica si no hay portafolios filtrados
+    } else {
+        this.filteredPortfolios = this.user;
+        this.vacio = this.filteredPortfolios.length === 0; // Verifica si no hay portafolios en general
+    }
+},
         redirectToUser(username) {
     this.$router.push({ 
         path: `/portafolio/${username}` // Ruta dinámica
